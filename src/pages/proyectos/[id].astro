@@ -4,21 +4,24 @@ import Base from '../../layouts/Base.astro';
 import ProjectCover from '../../components/ProjectCover.astro';
 
 export async function getStaticPaths() {
-  const projects = await getCollection('proyectos');
-  return projects.map((project) => ({
+  const projects = (await getCollection('proyectos')).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  );
+  // Mismo orden que el listado: "anterior" es el más reciente, "siguiente" el más antiguo
+  return projects.map((project, i) => ({
     params: { id: project.id },
-    props: { project },
+    props: { project, prev: projects[i - 1], next: projects[i + 1] },
   }));
 }
 
-const { project } = Astro.props;
+const { project, prev, next } = Astro.props;
 const { title, description, date, tags, repo, demo } = project.data;
 const { Content } = await render(project);
 const longDate = date.toLocaleDateString('es-ES', { year: 'numeric', month: 'long' });
 const formattedDate = longDate.charAt(0).toUpperCase() + longDate.slice(1);
 ---
 
-<Base title={title} description={description}>
+<Base title={title} description={description} type="article">
   <article>
     <a href="/proyectos/" class="back">← Proyectos</a>
     <ProjectCover project={project} variant="banner" />
@@ -37,6 +40,23 @@ const formattedDate = longDate.charAt(0).toUpperCase() + longDate.slice(1);
     <div class="content enter" style="--i: 5">
       <Content />
     </div>
+
+    {(prev || next) && (
+      <nav class="pager" aria-label="Más proyectos">
+        {prev ? (
+          <a href={`/proyectos/${prev.id}/`} rel="prev">
+            <span class="dir">← Anterior</span>
+            <span class="name">{prev.data.title}</span>
+          </a>
+        ) : <span />}
+        {next && (
+          <a href={`/proyectos/${next.id}/`} rel="next" class="next">
+            <span class="dir">Siguiente →</span>
+            <span class="name">{next.data.title}</span>
+          </a>
+        )}
+      </nav>
+    )}
   </article>
 </Base>
 
@@ -49,4 +69,40 @@ const formattedDate = longDate.charAt(0).toUpperCase() + longDate.slice(1);
   .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; padding: 0; }
   .links { display: flex; gap: 0.75rem; flex-wrap: wrap; margin: 1.5rem 0; }
   .content { border-top: 1px solid var(--border); margin-top: 2rem; }
+
+  .pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .pager a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-height: 44px;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    transition:
+      border-color 150ms ease,
+      transform 120ms var(--ease-out);
+  }
+  .pager a:active { transform: scale(0.98); }
+  .pager .next { grid-column: 2; text-align: right; }
+  .dir { font-size: 0.85rem; color: var(--accent); font-weight: 600; }
+  .name { font-weight: 600; overflow-wrap: anywhere; }
+  @media (hover: hover) and (pointer: fine) {
+    .pager a:hover { border-color: var(--accent); }
+  }
+  @media (max-width: 480px) {
+    .pager { grid-template-columns: 1fr; }
+    .pager > span { display: none; }
+    .pager .next { grid-column: auto; }
+  }
 </style>
