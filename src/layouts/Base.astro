@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { site } from '../data/site';
+import ThemeToggle from '../components/ThemeToggle.astro';
 
 interface Props {
   title?: string;
@@ -32,12 +33,29 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
-    <script is:inline>document.documentElement.classList.add('js');</script>
+    <script is:inline>
+      // Antes de pintar: marca que hay JS y aplica el tema guardado o el del sistema.
+      (() => {
+        const root = document.documentElement;
+        root.classList.add('js');
+        let theme = null;
+        try {
+          theme = localStorage.getItem('theme');
+        } catch {}
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        root.dataset.theme = theme;
+      })();
+    </script>
   </head>
   <body>
     <header class="site-header">
       <div class="container bar">
-        <a href="/" class="logo">{site.shortName}</a>
+        <a href="/" class="logo" aria-label={`${site.name}, inicio`}>
+          <span class="logo-full">{site.shortName}</span>
+          <span class="logo-short" aria-hidden="true">AP</span>
+        </a>
         <nav aria-label="Principal">
           {nav.map((item) => (
             <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
@@ -46,6 +64,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
             </a>
           ))}
         </nav>
+        <ThemeToggle />
       </div>
     </header>
 
@@ -103,10 +122,11 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     white-space: nowrap;
     padding: 0.5rem 0;
   }
+  .logo-short { display: none; }
   nav {
     display: flex;
     gap: 0.25rem;
-    margin-right: -0.6rem; /* alinea el texto del último enlace con el borde */
+    margin-left: auto;
   }
   nav a {
     position: relative;
@@ -138,11 +158,28 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     background: var(--accent);
   }
 
-  @media (max-width: 380px) {
-    .logo { font-size: 0.95rem; }
-    nav a { padding: 0 0.45rem; font-size: 0.9rem; }
-    nav { margin-right: -0.45rem; }
-    .indicator { left: 0.45rem; right: 0.45rem; }
+  /* Celulares: monograma en vez del nombre para que quepan menú y selector */
+  @media (max-width: 440px) {
+    .logo-full { display: none; }
+    .logo-short {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--bg);
+      font-size: 0.8rem;
+      letter-spacing: 0.02em;
+    }
+    .bar { gap: 0.25rem; }
+    nav { gap: 0; }
+    nav a { padding: 0 0.5rem; }
+    .indicator { left: 0.5rem; right: 0.5rem; }
+  }
+  @media (max-width: 350px) {
+    nav a { padding: 0 0.35rem; font-size: 0.9rem; }
+    .indicator { left: 0.35rem; right: 0.35rem; }
   }
 
   main {
