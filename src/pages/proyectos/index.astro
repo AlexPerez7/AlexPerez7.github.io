@@ -17,7 +17,7 @@ const projects = (await getCollection('proyectos')).sort(
 </Base>
 
 <style>
-  h1 { font-size: 2.5rem; margin: 2rem 0 0.5rem; }
+  h1 { font-size: clamp(2rem, 8vw, 2.5rem); margin: 2rem 0 0.5rem; }
   .intro { color: var(--muted); margin: 0 0 2rem; }
   .grid {
     display: grid;
