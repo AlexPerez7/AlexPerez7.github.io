@@ -1,5 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import avatar from '../assets/avatar.jpg';
 import Base from '../layouts/Base.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import TypedText from '../components/TypedText.astro';
@@ -14,12 +16,15 @@ const featured = (await getCollection('proyectos', ({ data }) => data.featured))
 
 <Base>
   <section class="hero">
-    <img
+    <Image
       class="avatar enter"
-      src={site.avatar}
+      src={avatar}
       alt={`Foto de ${site.name}`}
-      width="96"
-      height="96"
+      width={96}
+      height={96}
+      densities={[1, 2, 3]}
+      loading="eager"
+      fetchpriority="high"
       style="--i: 0"
     />
     <p class="eyebrow enter" style="--i: 1">Hola, soy</p>
@@ -58,6 +63,20 @@ const featured = (await getCollection('proyectos', ({ data }) => data.featured))
           </ul>
         </div>
       ))}
+    </div>
+  </section>
+
+  <section class="cta reveal">
+    <h2>¿Conversamos?</h2>
+    <p>
+      Si buscas apoyo en gestión de accesos privilegiados, hardening o una herramienta que
+      automatice tu trabajo, escríbeme.
+    </p>
+    <div class="actions">
+      <a class="btn" href={`mailto:${site.email}`}>Escribir un email</a>
+      <a class="btn secondary" href={site.social.find((s) => s.label === 'LinkedIn')?.href} target="_blank" rel="noopener">
+        LinkedIn
+      </a>
     </div>
   </section>
 </Base>
@@ -128,6 +147,17 @@ const featured = (await getCollection('proyectos', ({ data }) => data.featured))
     gap: 1.5rem;
   }
   .skill-groups h3 { font-size: 1rem; margin: 0 0 0.5rem; color: var(--muted); }
+  .cta {
+    margin-top: 4rem;
+    padding: clamp(1.5rem, 5vw, 2.25rem);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background:
+      radial-gradient(60% 120% at 0% 0%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%),
+      var(--surface);
+  }
+  .cta h2 { margin: 0 0 0.5rem; }
+  .cta p { margin: 0 0 1.25rem; color: var(--muted); max-width: 52ch; }
   .skills {
     display: flex;
     flex-wrap: wrap;

@@ -21,7 +21,7 @@ const longDate = date.toLocaleDateString('es-ES', { year: 'numeric', month: 'lon
 const formattedDate = longDate.charAt(0).toUpperCase() + longDate.slice(1);
 ---
 
-<Base title={title} description={description} type="article">
+<Base title={title} description={description} type="article" image={`/og/${project.id}.png`}>
   <article>
     <a href="/proyectos/" class="back">← Proyectos</a>
     <ProjectCover project={project} variant="banner" />

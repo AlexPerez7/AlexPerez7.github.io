@@ -3,14 +3,37 @@ import Base from '../layouts/Base.astro';
 import { site } from '../data/site';
 import CopyEmail from '../components/CopyEmail.astro';
 import { experience, education, certifications, languages } from '../data/cv';
+
+// Enlaces legibles para el CV impreso: github.com/AlexPerez7, linkedin.com/in/...
+// (Stack Overflow queda fuera: su URL es larga y aporta poco en papel)
+const printLinks = site.social
+  .filter((s) => s.label !== 'Stack Overflow')
+  .map(({ href }) => {
+    const url = new URL(href);
+    return url.host.replace(/^www\./, '') + decodeURIComponent(url.pathname).replace(/\/$/, '');
+  });
 ---
 
 <Base title="Sobre mí" description={`${site.role} e ${site.title.toLowerCase()} en ${site.location}.`}>
   <article>
-    <h1 class="enter">Sobre mí</h1>
+    <div class="title-row enter">
+      <h1>Sobre mí</h1>
+      <button type="button" class="btn secondary print-cv no-print">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14" />
+        </svg>
+        Descargar CV
+      </button>
+    </div>
+    <!-- Solo al imprimir: encabezado de CV con los datos de contacto -->
+    <div class="print-only cv-head">
+      <p class="cv-name">{site.name}</p>
+      <p>{site.role} · {site.title} · {site.location}</p>
+      <p>{site.email} · {printLinks.join(' · ')}</p>
+    </div>
     <p class="lead enter" style="--i: 1">
       Soy {site.name}, {site.title.toLowerCase()} con enfoque en ciberseguridad. Hoy trabajo
-      como {site.role.toLowerCase()} en {site.company}.
+      como {site.role.toLowerCase()} en {site.company}
     </p>
     <p class="enter" style="--i: 2">
       Me especializo en proteger accesos privilegiados, mejorar la resiliencia de sistemas
@@ -79,7 +102,7 @@ import { experience, education, certifications, languages } from '../data/cv';
       </p>
     </section>
 
-    <section class="reveal">
+    <section class="reveal no-print">
       <h2>Fuera del código</h2>
       <ul class="hobbies">
         <li>⚽ Fútbol</li>
@@ -89,7 +112,7 @@ import { experience, education, certifications, languages } from '../data/cv';
       </ul>
     </section>
 
-    <section class="reveal">
+    <section class="reveal no-print">
       <h2>Contacto</h2>
       <p>
         ¿Tienes una idea o propuesta? Escríbeme a{' '}
@@ -106,9 +129,41 @@ import { experience, education, certifications, languages } from '../data/cv';
   </article>
 </Base>
 
+<script>
+  // El diálogo de impresión permite "Guardar como PDF" en todos los navegadores
+  document.querySelector('.print-cv')?.addEventListener('click', () => window.print());
+</script>
+
 <style>
+  .title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    margin: 2rem 0 0.5rem;
+  }
+  .title-row h1 { margin: 0; }
+  .print-cv {
+    gap: 0.45rem;
+    font: inherit;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+  .print-cv svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .print-only { display: none; }
+
   article { max-width: 68ch; }
-  h1 { font-size: clamp(2rem, 8vw, 2.5rem); margin: 2rem 0 0.5rem; }
+  h1 { font-size: clamp(2rem, 8vw, 2.5rem); }
   .lead { font-size: 1.2rem; color: var(--muted); }
   h2 { margin-top: 2.5rem; }
   h3 { margin: 0; font-size: 1.05rem; }
@@ -172,5 +227,22 @@ import { experience, education, certifications, languages } from '../data/cv';
     border: 1px solid var(--border);
     border-radius: 999px;
     background: var(--surface);
+  }
+
+  /* ---------- CV impreso / PDF ---------- */
+  @media print {
+    .print-only { display: block; }
+    .title-row { display: none; }
+    .cv-head { margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid #d6d3d1; }
+    .cv-head p { margin: 0; color: #44403c; font-size: 10pt; }
+    .cv-name { font-size: 20pt !important; font-weight: 700; color: #000 !important; }
+    .lead { font-size: 11pt; color: #000; }
+    h2 { margin-top: 1.25rem; font-size: 13pt; }
+    h3 { font-size: 11pt; }
+    .timeline > li { padding-top: 0.5rem; padding-bottom: 0.5rem; break-inside: avoid; }
+    .timeline > li::before { top: 0.85rem; }
+    .plain > li { padding: 0.5rem 0; break-inside: avoid; }
+    .highlights { margin-top: 0.35rem; }
+    .highlights li + li { margin-top: 0.1rem; }
   }
 </style>

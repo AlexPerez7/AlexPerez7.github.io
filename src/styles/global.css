@@ -234,3 +234,31 @@ h1, h2, h3 { line-height: 1.2; letter-spacing: -0.02em; }
 @keyframes fade {
   from { opacity: 0; }
 }
+
+/* ---------- Impresión ---------- */
+@media print {
+  @page { margin: 1.5cm; }
+  :root,
+  :root:not([data-theme='light']),
+  :root[data-theme='dark'] {
+    --bg: #fff;
+    --surface: #fff;
+    --text: #000;
+    --muted: #44403c;
+    --border: #d6d3d1;
+    --accent: #4338ca;
+    --accent-soft: #eef2ff;
+    color-scheme: light;
+  }
+  body { font-size: 10.5pt; line-height: 1.45; }
+  .site-header,
+  footer,
+  .skip-link,
+  .no-print { display: none !important; }
+  main { min-height: 0; padding: 0; }
+  a { color: inherit; text-decoration: none; }
+  /* Sin animaciones: todo visible en el papel */
+  .enter { animation: none !important; }
+  .js .reveal { opacity: 1 !important; translate: none !important; transition: none !important; }
+  h2, h3 { break-after: avoid; }
+}
