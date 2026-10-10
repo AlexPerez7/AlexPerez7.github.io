@@ -1,3 +1,9 @@
+## Plan de mejoras
+
+Antes de proponer o implementar mejoras, lee `plan.md`: tiene las reglas del proyecto, las ideas
+pendientes y el historial. Al terminar una mejora, actualízalo (muévela a "Hecho" con fecha y
+commit) y anota ahí las ideas nuevas que surjan.
+
 ## Development
 
 When starting the dev server, use background mode:
