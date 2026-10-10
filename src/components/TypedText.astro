@@ -1,0 +1,87 @@
+---
+// Texto que se "teclea" letra a letra con un cursor.
+// - El texto completo queda en el HTML (accesible y para buscadores).
+// - Una copia invisible reserva el espacio, así el layout no salta.
+// - Con "reducir movimiento" se muestra completo de inmediato.
+interface Props {
+  text: string;
+  delay?: number; // ms antes de empezar
+}
+
+const { text, delay = 350 } = Astro.props;
+---
+
+<span class="typed-text">
+  <span class="sr-only">{text}</span>
+  <span class="ghost" aria-hidden="true">{text}</span>
+  <span class="typed" aria-hidden="true" data-text={text} data-delay={delay}>{text}</span>
+  <script is:inline>
+    // Inline y justo después del texto: se vacía antes del primer pintado, sin parpadeo.
+    (() => {
+      const el = document.currentScript.previousElementSibling;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const text = el.dataset.text;
+      const node = document.createTextNode('');
+      const caret = document.createElement('span');
+      caret.className = 'caret';
+      el.replaceChildren(node, caret);
+
+      let i = 0;
+      const tick = () => {
+        node.data = text.slice(0, ++i);
+        if (i >= text.length) {
+          caret.classList.add('done');
+          return;
+        }
+        // Ritmo humano: variación aleatoria y una pausa breve tras cada espacio
+        const pause = text[i - 1] === ' ' ? 90 : 0;
+        setTimeout(tick, 45 + Math.random() * 55 + pause);
+      };
+      setTimeout(tick, Number(el.dataset.delay));
+    })();
+  </script>
+</span>
+
+<style>
+  .typed-text {
+    display: inline-grid;
+  }
+  .ghost,
+  .typed {
+    grid-area: 1 / 1;
+  }
+  .ghost {
+    visibility: hidden;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* El cursor lo crea el script, por eso los estilos son globales dentro de .typed */
+  .typed :global(.caret) {
+    display: inline-block;
+    width: 0.07em;
+    height: 0.85em;
+    margin-left: 0.06em;
+    margin-right: -0.13em; /* no ocupa espacio: nunca provoca un salto de línea */
+    vertical-align: -0.05em;
+    border-radius: 2px;
+    background: var(--accent);
+  }
+  /* Fijo mientras escribe; al terminar parpadea unas veces y se apaga */
+  .typed :global(.caret.done) {
+    animation: caret-blink 1s step-end 4 forwards;
+  }
+
+  @keyframes caret-blink {
+    50%,
+    100% {
+      opacity: 0;
+    }
+  }
+</style>

@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import TypedText from '../components/TypedText.astro';
 import { site } from '../data/site';
 
 const featured = (await getCollection('proyectos', ({ data }) => data.featured)).sort(
@@ -20,7 +21,7 @@ const featured = (await getCollection('proyectos', ({ data }) => data.featured))
       style="--i: 0"
     />
     <p class="eyebrow enter" style="--i: 1">Hola, soy</p>
-    <h1 class="enter" style="--i: 2">{site.name}</h1>
+    <h1 class="enter" style="--i: 2"><TypedText text={site.name} delay={300} /></h1>
     <p class="lead enter" style="--i: 3">
       <strong>{site.role}</strong> e {site.title.toLowerCase()} en {site.location}. {site.tagline}
     </p>
@@ -56,7 +57,27 @@ const featured = (await getCollection('proyectos', ({ data }) => data.featured))
 </Base>
 
 <style>
-  .hero { padding: 3rem 0 2rem; }
+  .hero {
+    position: relative;
+    padding: clamp(1.75rem, 7vw, 3.5rem) 0 2rem;
+  }
+  /* Resplandor de color detrás del hero (estático, sin coste de animación) */
+  .hero::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: -4rem 0 0;
+    pointer-events: none;
+    background:
+      radial-gradient(40% 55% at 18% 30%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%),
+      radial-gradient(35% 45% at 70% 10%, color-mix(in srgb, #ec4899 9%, transparent), transparent 70%);
+    filter: blur(8px);
+  }
+  :global([data-theme='dark']) .hero::before {
+    background:
+      radial-gradient(40% 55% at 18% 30%, color-mix(in srgb, var(--accent) 24%, transparent), transparent 70%),
+      radial-gradient(35% 45% at 70% 10%, color-mix(in srgb, #ec4899 14%, transparent), transparent 70%);
+  }
   .avatar {
     border-radius: 50%;
     border: 3px solid var(--surface);
