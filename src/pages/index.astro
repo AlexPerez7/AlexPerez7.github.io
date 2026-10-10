@@ -1,16 +1,83 @@
 ---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { site } from '../data/site';
+
+const featured = (await getCollection('proyectos', ({ data }) => data.featured)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base>
+  <section class="hero">
+    <img
+      class="avatar enter"
+      src={site.avatar}
+      alt={`Foto de ${site.name}`}
+      width="96"
+      height="96"
+      style="--i: 0"
+    />
+    <p class="eyebrow enter" style="--i: 1">Hola, soy</p>
+    <h1 class="enter" style="--i: 2">{site.name}</h1>
+    <p class="lead enter" style="--i: 3">
+      <strong>{site.role}</strong> en {site.location}. {site.tagline}
+    </p>
+    <div class="actions enter" style="--i: 4">
+      <a class="btn" href="/proyectos/">Ver proyectos</a>
+      <a class="btn secondary" href={`mailto:${site.email}`}>Contactar</a>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head reveal">
+      <h2>Proyectos destacados</h2>
+      <a href="/proyectos/">Ver todos →</a>
+    </div>
+    <div class="grid">
+      {featured.map((project, i) => <ProjectCard project={project} index={i} />)}
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2>Tecnologías</h2>
+    <ul class="skills">
+      {site.skills.map((skill) => <li class="tag">{skill}</li>)}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .hero { padding: 3rem 0 2rem; }
+  .avatar {
+    border-radius: 50%;
+    border: 3px solid var(--surface);
+    box-shadow: 0 0 0 1px var(--border);
+    margin-bottom: 1.25rem;
+  }
+  .eyebrow { margin: 0; color: var(--accent); font-weight: 600; }
+  h1 { font-size: clamp(2.25rem, 7vw, 3.75rem); margin: 0.25rem 0 1rem; }
+  .lead { font-size: 1.2rem; color: var(--muted); max-width: 46ch; margin: 0 0 1.5rem; }
+  .lead strong { color: var(--text); font-weight: 600; }
+  .actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  section { margin-top: 3rem; }
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+  .skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+  }
+</style>

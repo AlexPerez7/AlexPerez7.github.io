@@ -1,0 +1,90 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+
+<Base title="Sobre mí" description={`${site.role} en ${site.location}.`}>
+  <article>
+    <h1 class="enter">Sobre mí</h1>
+    <p class="lead enter" style="--i: 1">
+      Soy {site.name}, {site.role.toLowerCase()} en {site.location}. Me apasionan la
+      tecnología y el deporte.
+    </p>
+    <p class="enter" style="--i: 2">
+      Me gusta aprender herramientas y frameworks nuevos y siempre busco nuevos desafíos.
+      Hoy estoy profundizando en el desarrollo backend y frontend. Mis proyectos van desde PWAs
+      que uso a diario hasta herramientas que automatizan trabajo repetitivo y servidores MCP
+      que conectan la IA con documentación real.
+    </p>
+
+    <section class="reveal">
+      <h2>Experiencia</h2>
+      <ul class="timeline">
+        <li>
+          <strong>{site.company}</strong>
+          <span>Actualidad</span>
+        </li>
+      </ul>
+    </section>
+
+    <section class="reveal">
+      <h2>Formación</h2>
+      <ul class="timeline">
+        <li>
+          <strong>Ingeniería en Informática</strong> · Duoc UC
+          <span>Proyecto de título: <a href="/proyectos/pandas-ai/">Pandas-AI</a></span>
+        </li>
+      </ul>
+    </section>
+
+    <section class="reveal">
+      <h2>Fuera del código</h2>
+      <ul class="hobbies">
+        <li>⚽ Fútbol</li>
+        <li>🚴 Ciclismo</li>
+        <li>📖 Novelas de suspenso y fantasía</li>
+        <li>🎮 Videojuegos</li>
+      </ul>
+    </section>
+
+    <section class="reveal">
+      <h2>Contacto</h2>
+      <p>
+        ¿Tienes una idea o propuesta? Escríbeme a
+        <a href={`mailto:${site.email}`}>{site.email}</a> o encuéntrame en
+        {site.social.map((s, i) => (
+          <>
+            {i > 0 && (i === site.social.length - 1 ? ' y ' : ', ')}
+            <a href={s.href} target="_blank" rel="noopener">{s.label}</a>
+          </>
+        ))}.
+      </p>
+    </section>
+  </article>
+</Base>
+
+<style>
+  article { max-width: 68ch; }
+  h1 { font-size: 2.5rem; margin: 2rem 0 0.5rem; }
+  .lead { font-size: 1.2rem; color: var(--muted); }
+  h2 { margin-top: 2.5rem; }
+  .timeline { list-style: none; padding: 0; }
+  .timeline li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .timeline span { display: block; color: var(--muted); font-size: 0.9rem; }
+  .hobbies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+  }
+  .hobbies li {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+  }
+</style>

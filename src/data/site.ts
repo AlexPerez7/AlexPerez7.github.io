@@ -1,0 +1,31 @@
+// Edita estos datos con tu información personal.
+export const site = {
+  name: 'Alex Pérez Argomedo',
+  shortName: 'Alex Pérez',
+  role: 'Ingeniero en Informática',
+  tagline: 'Desarrollo backend y frontend: apps web, PWAs y herramientas que automatizan el trabajo del día a día.',
+  email: 'alexmatiasp01@gmail.com',
+  location: 'Santiago, Chile',
+  company: 'Assertiva S.A.',
+  avatar: 'https://avatars.githubusercontent.com/u/64103251?v=4',
+  social: [
+    { label: 'GitHub', href: 'https://github.com/AlexPerez7' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/alexperezargomedo/' },
+    { label: 'Stack Overflow', href: 'https://stackoverflow.com/users/16018274/alex-p%c3%a9rez' },
+  ],
+  skills: [
+    'Python',
+    'JavaScript',
+    'TypeScript',
+    'Java',
+    'React',
+    'Next.js',
+    'Django',
+    'Flask',
+    'Tailwind CSS',
+    'PostgreSQL',
+    'Supabase',
+    'PowerShell',
+    'CyberArk',
+  ],
+};

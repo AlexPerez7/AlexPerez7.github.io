@@ -1,0 +1,49 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('proyectos');
+  return projects.map((project) => ({
+    params: { id: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { title, description, date, tags, repo, demo } = project.data;
+const { Content } = await render(project);
+const formattedDate = date.toLocaleDateString('es-ES', { year: 'numeric', month: 'long' });
+---
+
+<Base title={title} description={description}>
+  <article>
+    <a href="/proyectos/" class="back">← Proyectos</a>
+    <h1 style={`view-transition-name: project-${project.id}`}>{title}</h1>
+    <p class="meta enter" style="--i: 1">{formattedDate}</p>
+    <p class="lead enter" style="--i: 2">{description}</p>
+    <ul class="tags enter" style="--i: 3">
+      {tags.map((tag) => <li class="tag">{tag}</li>)}
+    </ul>
+    {(repo || demo) && (
+      <div class="links enter" style="--i: 4">
+        {demo && <a class="btn" href={demo} target="_blank" rel="noopener">Ver demo</a>}
+        {repo && <a class="btn secondary" href={repo} target="_blank" rel="noopener">Código</a>}
+      </div>
+    )}
+    <div class="content enter" style="--i: 5">
+      <Content />
+    </div>
+  </article>
+</Base>
+
+<style>
+  article { max-width: 68ch; }
+  .back { display: inline-block; margin-top: 1.5rem; text-decoration: none; }
+  h1 { font-size: 2.5rem; margin: 1rem 0 0.25rem; width: fit-content; }
+  .meta { color: var(--muted); margin: 0; text-transform: capitalize; }
+  .lead { font-size: 1.15rem; }
+  .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; padding: 0; }
+  .links { display: flex; gap: 0.75rem; flex-wrap: wrap; margin: 1.5rem 0; }
+  .content { border-top: 1px solid var(--border); margin-top: 2rem; }
+</style>
