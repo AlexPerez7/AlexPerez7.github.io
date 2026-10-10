@@ -1,40 +1,81 @@
 ---
 import Base from '../layouts/Base.astro';
 import { site } from '../data/site';
+import { experience, education, certifications, languages } from '../data/cv';
 ---
 
-<Base title="Sobre mí" description={`${site.role} en ${site.location}.`}>
+<Base title="Sobre mí" description={`${site.role} e ${site.title.toLowerCase()} en ${site.location}.`}>
   <article>
     <h1 class="enter">Sobre mí</h1>
     <p class="lead enter" style="--i: 1">
-      Soy {site.name}, {site.role.toLowerCase()} en {site.location}. Me apasionan la
-      tecnología y el deporte.
+      Soy {site.name}, {site.title.toLowerCase()} con enfoque en ciberseguridad. Hoy trabajo
+      como {site.role.toLowerCase()} en {site.company}.
     </p>
     <p class="enter" style="--i: 2">
-      Me gusta aprender herramientas y frameworks nuevos y siempre busco nuevos desafíos.
-      Hoy estoy profundizando en el desarrollo backend y frontend. Mis proyectos van desde PWAs
-      que uso a diario hasta herramientas que automatizan trabajo repetitivo y servidores MCP
-      que conectan la IA con documentación real.
+      Me especializo en proteger accesos privilegiados, mejorar la resiliencia de sistemas
+      críticos y apoyar a las organizaciones en el cumplimiento de normativas de seguridad. He
+      participado en proyectos de hardening, gestión de vulnerabilidades y auditorías, y me gusta
+      documentar procesos y desarrollar automatizaciones que ahorran trabajo.
+    </p>
+    <p class="enter" style="--i: 3">
+      Fuera del trabajo sigo programando: PWAs que uso a diario, herramientas internas y
+      servidores MCP que conectan la IA con documentación real.
     </p>
 
-    <section class="reveal">
-      <h2>Experiencia</h2>
-      <ul class="timeline">
-        <li>
-          <strong>{site.company}</strong>
-          <span>Actualidad</span>
-        </li>
+    <section>
+      <h2 class="reveal">Experiencia</h2>
+      <ol class="timeline">
+        {experience.map((job) => (
+          <li class="reveal">
+            <div class="job-head">
+              <div>
+                <h3>{job.role}</h3>
+                <p class="company">{job.company} · {job.location}</p>
+              </div>
+              <span class="period">{job.period}</span>
+            </div>
+            <ul class="highlights">
+              {job.highlights.map((h) => <li>{h}</li>)}
+            </ul>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section>
+      <h2 class="reveal">Formación</h2>
+      <ul class="plain">
+        {education.map((ed) => (
+          <li class="reveal">
+            <div class="job-head">
+              <div>
+                <h3>{ed.title}</h3>
+                <p class="company">{ed.school}</p>
+                {ed.note && (
+                  <p class="note">
+                    {ed.noteHref ? <a href={ed.noteHref}>{ed.note}</a> : ed.note}
+                  </p>
+                )}
+              </div>
+              <span class="period">{ed.period}</span>
+            </div>
+          </li>
+        ))}
       </ul>
     </section>
 
     <section class="reveal">
-      <h2>Formación</h2>
-      <ul class="timeline">
-        <li>
-          <strong>Ingeniería en Informática</strong> · Duoc UC
-          <span>Proyecto de título: <a href="/proyectos/pandas-ai/">Pandas-AI</a></span>
-        </li>
+      <h2>Certificaciones</h2>
+      <ul class="certs">
+        {certifications.map((c) => <li>{c}</li>)}
       </ul>
+    </section>
+
+    <section class="reveal">
+      <h2>Idiomas</h2>
+      <p>
+        Español (nativo){languages.map((l) => `, ${l.name} (${l.level.toLowerCase()})`)}.
+      </p>
     </section>
 
     <section class="reveal">
@@ -68,12 +109,55 @@ import { site } from '../data/site';
   h1 { font-size: 2.5rem; margin: 2rem 0 0.5rem; }
   .lead { font-size: 1.2rem; color: var(--muted); }
   h2 { margin-top: 2.5rem; }
-  .timeline { list-style: none; padding: 0; }
-  .timeline li {
-    padding: 0.75rem 0;
+  h3 { margin: 0; font-size: 1.05rem; }
+
+  .timeline,
+  .plain {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .timeline > li,
+  .plain > li {
+    padding: 1rem 0;
     border-bottom: 1px solid var(--border);
   }
-  .timeline span { display: block; color: var(--muted); font-size: 0.9rem; }
+  .timeline > li {
+    position: relative;
+    padding-left: 1.25rem;
+    border-bottom: none;
+    border-left: 2px solid var(--border);
+  }
+  .timeline > li::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 1.35rem;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .job-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem 1rem;
+    flex-wrap: wrap;
+  }
+  .company { margin: 0.1rem 0 0; color: var(--muted); }
+  .period { color: var(--muted); font-size: 0.9rem; white-space: nowrap; }
+  .note { margin: 0.25rem 0 0; font-size: 0.95rem; }
+  .highlights {
+    margin: 0.75rem 0 0;
+    padding-left: 1.1rem;
+    color: var(--muted);
+  }
+  .highlights li + li { margin-top: 0.3rem; }
+
+  .certs { padding-left: 1.1rem; }
+  .certs li + li { margin-top: 0.3rem; }
+
   .hobbies {
     display: flex;
     flex-wrap: wrap;

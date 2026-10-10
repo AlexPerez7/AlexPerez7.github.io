@@ -2,8 +2,10 @@
 export const site = {
   name: 'Alex Pérez Argomedo',
   shortName: 'Alex Pérez',
-  role: 'Ingeniero en Informática',
-  tagline: 'Desarrollo backend y frontend: apps web, PWAs y herramientas que automatizan el trabajo del día a día.',
+  role: 'Consultor en Ciberseguridad',
+  title: 'Ingeniero en Informática',
+  tagline:
+    'Protejo accesos privilegiados y sistemas críticos, y desarrollo automatizaciones, apps web y PWAs que hacen el trabajo más eficiente.',
   email: 'alexmatiasp01@gmail.com',
   location: 'Santiago, Chile',
   company: 'Assertiva S.A.',
@@ -14,18 +16,17 @@ export const site = {
     { label: 'Stack Overflow', href: 'https://stackoverflow.com/users/16018274/alex-p%c3%a9rez' },
   ],
   skills: [
-    'Python',
-    'JavaScript',
-    'TypeScript',
-    'Java',
-    'React',
-    'Next.js',
-    'Django',
-    'Flask',
-    'Tailwind CSS',
-    'PostgreSQL',
-    'Supabase',
-    'PowerShell',
-    'CyberArk',
+    {
+      group: 'Ciberseguridad',
+      items: ['PAM / CyberArk', 'EDR', 'SIEM', 'Gestión de vulnerabilidades', 'Hardening', 'ISO 27001', 'Linux'],
+    },
+    {
+      group: 'Desarrollo',
+      items: ['Python', 'JavaScript', 'TypeScript', 'Java', 'React', 'Next.js', 'Django', 'Flask', 'Tailwind CSS'],
+    },
+    {
+      group: 'Datos y automatización',
+      items: ['PostgreSQL', 'Supabase', 'PowerShell', 'APIs REST', 'Power BI', 'SAP'],
+    },
   ],
 };

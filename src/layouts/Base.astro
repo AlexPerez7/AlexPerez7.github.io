@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { title, description = site.tagline } = Astro.props;
-const pageTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.role}`;
+const pageTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.role} | ${site.title}`;
 
 const nav = [
   { href: '/', label: 'Inicio' },
