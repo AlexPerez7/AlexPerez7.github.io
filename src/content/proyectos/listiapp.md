@@ -4,6 +4,8 @@ description: PWA de listas de compras que funciona offline y se sincroniza en ti
 date: 2026-08-20
 tags: [TypeScript, Supabase, PWA]
 repo: https://github.com/AlexPerez7/ListiApp
+color: '#ec4899'
+icon: '🛒'
 ---
 
 ## Funcionalidad

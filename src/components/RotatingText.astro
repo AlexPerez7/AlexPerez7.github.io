@@ -1,0 +1,72 @@
+---
+// Frases que se escriben y se borran en bucle, con cursor.
+// - Los lectores de pantalla reciben la lista completa, sin animación.
+// - Una copia invisible de la frase más larga reserva el espacio (sin saltos de layout).
+// - Con "reducir movimiento" se muestra la primera frase, fija.
+// - Se pausa cuando la pestaña no está visible.
+interface Props {
+  words: string[];
+  delay?: number; // ms antes de empezar
+}
+
+const { words, delay = 0 } = Astro.props;
+const longest = words.reduce((a, b) => (b.length > a.length ? b : a), '');
+---
+
+<span class="rotating-text">
+  <span class="sr-only">{words.join(', ')}</span>
+  <span class="ghost" aria-hidden="true">{longest}</span>
+  <span class="typed" aria-hidden="true" data-words={JSON.stringify(words)} data-delay={delay}
+    >{words[0]}</span
+  >
+  <script is:inline>
+    (() => {
+      const el = document.currentScript.previousElementSibling;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const words = JSON.parse(el.dataset.words);
+      const node = document.createTextNode('');
+      const caret = document.createElement('span');
+      caret.className = 'caret blink';
+      el.replaceChildren(node, caret);
+
+      const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+      const visible = async () => {
+        while (document.hidden) await wait(500);
+      };
+
+      (async () => {
+        await wait(Number(el.dataset.delay));
+        for (let w = 0; ; w = (w + 1) % words.length) {
+          const word = words[w];
+          caret.classList.remove('blink'); // cursor fijo mientras escribe o borra
+          for (let i = 1; i <= word.length; i++) {
+            node.data = word.slice(0, i);
+            await wait(40 + Math.random() * 50);
+          }
+          caret.classList.add('blink');
+          await wait(2200);
+          await visible();
+          caret.classList.remove('blink');
+          for (let i = word.length - 1; i >= 0; i--) {
+            node.data = word.slice(0, i);
+            await wait(28);
+          }
+          await wait(350);
+        }
+      })();
+    })();
+  </script>
+</span>
+
+<style>
+  .rotating-text {
+    display: inline-grid;
+  }
+  .ghost,
+  .typed {
+    grid-area: 1 / 1;
+  }
+  .ghost {
+    visibility: hidden;
+  }
+</style>

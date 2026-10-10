@@ -6,6 +6,13 @@ export const site = {
   title: 'Ingeniero en Informática',
   tagline:
     'Protejo accesos privilegiados y sistemas críticos, y desarrollo automatizaciones, apps web y PWAs que hacen el trabajo más eficiente.',
+  // Roles que rotan bajo el nombre en la portada
+  roles: [
+    'Consultor en Ciberseguridad',
+    'Ingeniero en Informática',
+    'Especialista en PAM / CyberArk',
+    'Desarrollador web',
+  ],
   email: 'alexmatiasp01@gmail.com',
   location: 'Santiago, Chile',
   company: 'Assertiva S.A.',

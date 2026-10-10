@@ -4,6 +4,8 @@ description: Bot de música para Discord con cola de reproducción, slash comman
 date: 2024-11-28
 tags: [Python, Discord, FFmpeg]
 repo: https://github.com/AlexPerez7/AlexBeats-Discord-Music-Bot
+color: '#ef4444'
+icon: '🎧'
 ---
 
 ## Funcionalidad

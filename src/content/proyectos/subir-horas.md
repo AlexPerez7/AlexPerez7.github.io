@@ -4,6 +4,8 @@ description: Formulario web instalable que registra horas de trabajo directament
 date: 2026-07-08
 tags: [JavaScript, Node.js, Odoo, Supabase]
 repo: https://github.com/AlexPerez7/subir_horas
+color: '#8b5cf6'
+icon: '⏱️'
 ---
 
 ## El problema

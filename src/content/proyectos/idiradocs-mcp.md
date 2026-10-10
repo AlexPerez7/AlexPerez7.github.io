@@ -4,6 +4,8 @@ description: Servidor MCP que da a Claude acceso a la documentación oficial de 
 date: 2026-08-07
 tags: [TypeScript, MCP, IA]
 repo: https://github.com/AlexPerez7/idiradocs-mcp
+color: '#6366f1'
+icon: '🔐'
 ---
 
 ## Por qué existe

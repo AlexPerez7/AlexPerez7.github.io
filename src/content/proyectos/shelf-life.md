@@ -6,6 +6,8 @@ tags: [TypeScript, PWA]
 repo: https://github.com/AlexPerez7/shelf-life
 demo: https://alexperez7.github.io/shelf-life/
 featured: true
+color: '#f59e0b'
+icon: '📚'
 ---
 
 ## Tres trackers en uno

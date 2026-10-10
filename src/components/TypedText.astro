@@ -53,35 +53,4 @@ const { text, delay = 350 } = Astro.props;
   .ghost {
     visibility: hidden;
   }
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-
-  /* El cursor lo crea el script, por eso los estilos son globales dentro de .typed */
-  .typed :global(.caret) {
-    display: inline-block;
-    width: 0.07em;
-    height: 0.85em;
-    margin-left: 0.06em;
-    margin-right: -0.13em; /* no ocupa espacio: nunca provoca un salto de línea */
-    vertical-align: -0.05em;
-    border-radius: 2px;
-    background: var(--accent);
-  }
-  /* Fijo mientras escribe; al terminar parpadea unas veces y se apaga */
-  .typed :global(.caret.done) {
-    animation: caret-blink 1s step-end 4 forwards;
-  }
-
-  @keyframes caret-blink {
-    50%,
-    100% {
-      opacity: 0;
-    }
-  }
 </style>

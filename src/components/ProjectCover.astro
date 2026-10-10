@@ -1,0 +1,97 @@
+---
+// Portada de un proyecto: imagen real si existe (`cover`), si no una portada
+// generada con el color e ícono del proyecto.
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'proyectos'>;
+  variant?: 'card' | 'banner';
+}
+
+const { project, variant = 'card' } = Astro.props;
+const { title, color, icon, cover } = project.data;
+---
+
+<div
+  class:list={['cover', `cover--${variant}`]}
+  style={`--c: ${color}; view-transition-name: cover-${project.id}`}
+  aria-hidden="true"
+>
+  {cover ? (
+    <Image
+      src={cover}
+      alt=""
+      widths={variant === 'banner' ? [720, 1440] : [400, 800]}
+      sizes={variant === 'banner' ? '(min-width: 760px) 720px, 100vw' : '(min-width: 760px) 320px, 100vw'}
+      loading={variant === 'banner' ? 'eager' : 'lazy'}
+    />
+  ) : (
+    <span class="tile" data-title={title}>{icon}</span>
+  )}
+</div>
+
+<style>
+  .cover {
+    position: relative;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    aspect-ratio: 16 / 7;
+    background:
+      radial-gradient(120% 90% at 0% 0%, color-mix(in srgb, var(--c) 42%, transparent), transparent 60%),
+      radial-gradient(90% 80% at 100% 100%, color-mix(in srgb, var(--c) 26%, transparent), transparent 60%),
+      color-mix(in srgb, var(--c) 8%, var(--surface));
+  }
+  /* Trama de puntos que se desvanece hacia abajo */
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(color-mix(in srgb, var(--c) 45%, transparent) 1px, transparent 1px);
+    background-size: 14px 14px;
+    mask-image: linear-gradient(to bottom, black, transparent 85%);
+    -webkit-mask-image: linear-gradient(to bottom, black, transparent 85%);
+    opacity: 0.6;
+  }
+  .cover img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .tile {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    font-size: 2rem;
+    line-height: 1;
+    border-radius: 18px;
+    background: color-mix(in srgb, var(--surface) 72%, transparent);
+    border: 1px solid color-mix(in srgb, var(--c) 35%, transparent);
+    box-shadow: 0 12px 30px -10px color-mix(in srgb, var(--c) 60%, transparent);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition: transform 250ms var(--ease-out);
+  }
+
+  .cover--banner {
+    aspect-ratio: 16 / 6;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  .cover--banner .tile {
+    width: 88px;
+    height: 88px;
+    font-size: 2.75rem;
+    border-radius: 24px;
+  }
+  @media (max-width: 600px) {
+    .cover--banner { aspect-ratio: 16 / 8; }
+  }
+</style>

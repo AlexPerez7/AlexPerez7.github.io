@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import ProjectCover from './ProjectCover.astro';
 
 interface Props {
   project: CollectionEntry<'proyectos'>;
@@ -10,13 +11,23 @@ const { project, index = 0 } = Astro.props;
 const { title, description, tags } = project.data;
 ---
 
-<a href={`/proyectos/${project.id}/`} class="card reveal" style={`--i: ${index % 3}`}>
-  <h3 style={`view-transition-name: project-${project.id}`}>{title}</h3>
-  <p>{description}</p>
-  <ul>
-    {tags.map((tag) => <li class="tag">{tag}</li>)}
-  </ul>
-  <span class="arrow" aria-hidden="true">→</span>
+<a
+  href={`/proyectos/${project.id}/`}
+  class="card reveal"
+  data-tags={tags.join('|')}
+  style={`--i: ${index % 3}; view-transition-name: card-${project.id}`}
+>
+  <ProjectCover project={project} />
+  <div class="body">
+    <div class="title-row">
+      <h3 style={`view-transition-name: project-${project.id}`}>{title}</h3>
+      <span class="arrow" aria-hidden="true">→</span>
+    </div>
+    <p>{description}</p>
+    <ul>
+      {tags.map((tag) => <li class="tag">{tag}</li>)}
+    </ul>
+  </div>
 </a>
 
 <style>
@@ -24,14 +35,14 @@ const { title, description, tags } = project.data;
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    padding: 1.25rem;
+    overflow: hidden;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     color: inherit;
     text-decoration: none;
   }
+  .card[hidden] { display: none; }
   .card {
     transition:
       transform 200ms var(--ease-out),
@@ -59,6 +70,22 @@ const { title, description, tags } = project.data;
       opacity: 1;
       transform: none;
     }
+    .card:hover :global(.tile) {
+      transform: translateY(-3px) rotate(-6deg) scale(1.06);
+    }
+  }
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+    padding: 1.1rem 1.25rem 1.25rem;
+  }
+  .title-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
   }
   h3 { margin: 0; font-size: 1.15rem; width: fit-content; }
   p { margin: 0; color: var(--muted); flex: 1; }
@@ -71,9 +98,6 @@ const { title, description, tags } = project.data;
     margin: 0.5rem 0 0;
   }
   .arrow {
-    position: absolute;
-    top: 1.15rem;
-    right: 1.25rem;
     color: var(--accent);
     opacity: 0;
     transform: translateX(-6px);
@@ -81,8 +105,13 @@ const { title, description, tags } = project.data;
       opacity 200ms var(--ease-out),
       transform 200ms var(--ease-out);
   }
+  /* En pantallas táctiles la flecha siempre visible: indica que es tocable */
+  @media not ((hover: hover) and (pointer: fine)) {
+    .arrow { opacity: 0.7; transform: none; }
+  }
   @media (prefers-reduced-motion: reduce) {
     .card:hover { transform: none; }
+    .card:hover :global(.tile) { transform: none; }
     .arrow { transform: none; }
   }
 </style>

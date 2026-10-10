@@ -6,19 +6,136 @@ import ProjectCard from '../../components/ProjectCard.astro';
 const projects = (await getCollection('proyectos')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
+
+// Filtros: tecnologías presentes en al menos 2 proyectos, de más a menos usadas
+const counts = new Map<string, number>();
+for (const p of projects) for (const t of p.data.tags) counts.set(t, (counts.get(t) ?? 0) + 1);
+const filters = [...counts]
+  .filter(([, n]) => n >= 2)
+  .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
 ---
 
 <Base title="Proyectos" description="Todos mis proyectos.">
   <h1 class="enter">Proyectos</h1>
-  <p class="intro enter" style="--i: 1">Apps web, PWAs, herramientas internas e IA: una selección de lo que he construido.</p>
+  <p class="intro enter" style="--i: 1">
+    Apps web, PWAs, herramientas internas e IA: una selección de lo que he construido.
+  </p>
+
+  <div class="filters enter" style="--i: 2" role="group" aria-label="Filtrar por tecnología">
+    <button type="button" class="filter" data-tag="" aria-pressed="true">
+      Todos <span class="count">{projects.length}</span>
+    </button>
+    {filters.map(([tag, n]) => (
+      <button type="button" class="filter" data-tag={tag} aria-pressed="false">
+        {tag} <span class="count">{n}</span>
+      </button>
+    ))}
+  </div>
+  <p class="sr-only" aria-live="polite" id="filter-status"></p>
+
   <div class="grid">
     {projects.map((project, i) => <ProjectCard project={project} index={i} />)}
   </div>
 </Base>
 
+<script>
+  const root = document.documentElement;
+  const buttons = [...document.querySelectorAll<HTMLButtonElement>('.filter')];
+  const cards = [...document.querySelectorAll<HTMLElement>('.grid .card')];
+  const status = document.getElementById('filter-status')!;
+
+  function update(tag: string) {
+    let shown = 0;
+    for (const card of cards) {
+      const match = !tag || card.dataset.tags!.split('|').includes(tag);
+      card.hidden = !match;
+      // Al filtrar, las tarjetas visibles quedan reveladas sin esperar al scroll
+      card.setAttribute('data-visible', '');
+      if (match) shown++;
+    }
+    for (const b of buttons) b.setAttribute('aria-pressed', String(b.dataset.tag === tag));
+    status.textContent = tag
+      ? `${shown} ${shown === 1 ? 'proyecto' : 'proyectos'} con ${tag}`
+      : `Mostrando los ${shown} proyectos`;
+  }
+
+  function select(tag: string, animate = true) {
+    const url = new URL(location.href);
+    if (tag) url.searchParams.set('tag', tag);
+    else url.searchParams.delete('tag');
+    history.replaceState(null, '', url);
+
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!animate || reduce || !document.startViewTransition) {
+      update(tag);
+      return;
+    }
+    // Las tarjetas se reacomodan animadas (cada una tiene su view-transition-name)
+    root.classList.add('filtering');
+    const transition = document.startViewTransition(() => update(tag));
+    transition.finished.finally(() => root.classList.remove('filtering'));
+  }
+
+  for (const b of buttons) {
+    b.addEventListener('click', () => {
+      if (b.getAttribute('aria-pressed') === 'true') return;
+      select(b.dataset.tag!);
+    });
+  }
+
+  // Filtro inicial desde la URL (?tag=Python)
+  const initial = new URL(location.href).searchParams.get('tag') ?? '';
+  if (initial && buttons.some((b) => b.dataset.tag === initial)) select(initial, false);
+</script>
+
 <style>
   h1 { font-size: clamp(2rem, 8vw, 2.5rem); margin: 2rem 0 0.5rem; }
-  .intro { color: var(--muted); margin: 0 0 2rem; }
+  .intro { color: var(--muted); margin: 0 0 1.5rem; }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 40px;
+    padding: 0 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease,
+      color 150ms ease,
+      transform 120ms var(--ease-out);
+  }
+  .filter:active { transform: scale(0.96); }
+  .filter:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .count {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .filter[aria-pressed='true'] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+  }
+  .filter[aria-pressed='true'] .count { color: color-mix(in srgb, var(--bg) 75%, transparent); }
+  @media (hover: hover) and (pointer: fine) {
+    .filter[aria-pressed='false']:hover { border-color: var(--accent); }
+  }
+
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));

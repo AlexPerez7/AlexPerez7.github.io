@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import ProjectCover from '../../components/ProjectCover.astro';
 
 export async function getStaticPaths() {
   const projects = await getCollection('proyectos');
@@ -20,6 +21,7 @@ const formattedDate = longDate.charAt(0).toUpperCase() + longDate.slice(1);
 <Base title={title} description={description}>
   <article>
     <a href="/proyectos/" class="back">← Proyectos</a>
+    <ProjectCover project={project} variant="banner" />
     <h1 style={`view-transition-name: project-${project.id}`}>{title}</h1>
     <p class="meta enter" style="--i: 1">{formattedDate}</p>
     <p class="lead enter" style="--i: 2">{description}</p>
@@ -41,7 +43,7 @@ const formattedDate = longDate.charAt(0).toUpperCase() + longDate.slice(1);
 <style>
   article { max-width: 68ch; }
   .back { display: inline-flex; align-items: center; min-height: 44px; margin-top: 1rem; text-decoration: none; }
-  h1 { font-size: clamp(2rem, 8vw, 2.5rem); margin: 1rem 0 0.25rem; width: fit-content; max-width: 100%; }
+  h1 { font-size: clamp(2rem, 8vw, 2.5rem); margin: 1.5rem 0 0.25rem; width: fit-content; max-width: 100%; }
   .meta { color: var(--muted); margin: 0; }
   .lead { font-size: 1.15rem; }
   .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; padding: 0; }

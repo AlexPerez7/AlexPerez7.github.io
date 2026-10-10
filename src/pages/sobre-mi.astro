@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { site } from '../data/site';
+import CopyEmail from '../components/CopyEmail.astro';
 import { experience, education, certifications, languages } from '../data/cv';
 ---
 
@@ -100,6 +101,7 @@ import { experience, education, certifications, languages } from '../data/cv';
           </>
         ))}.
       </p>
+      <CopyEmail email={site.email} />
     </section>
   </article>
 </Base>

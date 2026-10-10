@@ -4,6 +4,8 @@ description: Proyecto de título en Duoc UC. App web en Django para "conversar" 
 date: 2023-11-27
 tags: [Python, Django, LangChain, OpenAI]
 repo: https://github.com/AlexPerez7/Pandas-AI
+color: '#14b8a6'
+icon: '🐼'
 ---
 
 ## Qué hace

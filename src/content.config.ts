@@ -4,7 +4,7 @@ import { z } from 'astro/zod';
 
 const proyectos = defineCollection({
   loader: glob({ base: './src/content/proyectos', pattern: '**/*.md' }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     title: z.string(),
     description: z.string(),
     date: z.coerce.date(),
@@ -12,6 +12,10 @@ const proyectos = defineCollection({
     repo: z.string().url().optional(),
     demo: z.string().url().optional(),
     featured: z.boolean().default(false),
+    // Portada: color e ícono para la portada generada, o una imagen real opcional
+    color: z.string().default('#6366f1'),
+    icon: z.string().default('✦'),
+    cover: image().optional(),
   }),
 });
 
