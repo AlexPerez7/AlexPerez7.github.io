@@ -58,6 +58,7 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 | 2026-10-10 | Roles con fundido cuando se pide reducir movimiento                                          | `c910e90` |
 | 2026-10-10 | SEO: Open Graph, datos estructurados, sitemap, robots.txt, 404, saltar al contenido, anterior/siguiente | `8a70dae` |
 | 2026-10-10 | Imagen social por proyecto, CV imprimible, llamada a contacto, foto optimizada               | `5e220c2` |
+| 2026-10-11 | Proyecto PAM Web Console como primer destacado; AutoPedia deja de ser destacado             | `9481f30` |
 
 ## Descartadas
 
