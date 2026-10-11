@@ -5,7 +5,6 @@ date: 2026-08-16
 tags: [Next.js, TypeScript, Prisma, PostgreSQL]
 repo: https://github.com/AlexPerez7/AutoPedia
 demo: https://auto-pedia-self.vercel.app
-featured: true
 color: '#3b82f6'
 icon: '🚗'
 ---
