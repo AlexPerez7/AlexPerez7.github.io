@@ -5,9 +5,12 @@ import ProjectCover from './ProjectCover.astro';
 interface Props {
   project: CollectionEntry<'proyectos'>;
   index?: number;
+  /** Nivel del título según la página: h2 si la lista va directo bajo el h1 */
+  headingLevel?: 2 | 3;
 }
 
-const { project, index = 0 } = Astro.props;
+const { project, index = 0, headingLevel = 3 } = Astro.props;
+const Heading = `h${headingLevel}` as 'h2' | 'h3';
 const { title, description, tags } = project.data;
 ---
 
@@ -20,7 +23,7 @@ const { title, description, tags } = project.data;
   <ProjectCover project={project} />
   <div class="body">
     <div class="title-row">
-      <h3 style={`view-transition-name: project-${project.id}`}>{title}</h3>
+      <Heading class="title" style={`view-transition-name: project-${project.id}`}>{title}</Heading>
       <span class="arrow" aria-hidden="true">→</span>
     </div>
     <p>{description}</p>
@@ -87,7 +90,7 @@ const { title, description, tags } = project.data;
     justify-content: space-between;
     gap: 0.5rem;
   }
-  h3 { margin: 0; font-size: 1.15rem; width: fit-content; }
+  .title { margin: 0; font-size: 1.15rem; width: fit-content; }
   p { margin: 0; color: var(--muted); flex: 1; }
   ul {
     display: flex;

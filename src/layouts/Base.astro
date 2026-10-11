@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { site } from '../data/site';
 import ThemeToggle from '../components/ThemeToggle.astro';
+import CommandPalette from '../components/CommandPalette.astro';
 
 interface Props {
   title?: string;
@@ -91,7 +92,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
     <header class="site-header">
       <div class="container bar">
-        <a href="/" class="logo" aria-label={`${site.name}, inicio`}>
+        <a href="/" class="logo" aria-label={`${site.shortName}, inicio`}>
           <span class="logo-full">{site.shortName}</span>
           <span class="logo-short" aria-hidden="true">AP</span>
         </a>
@@ -103,6 +104,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
             </a>
           ))}
         </nav>
+        <CommandPalette />
         <ThemeToggle />
       </div>
     </header>

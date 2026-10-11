@@ -1,0 +1,407 @@
+---
+// Paleta de búsqueda: Ctrl+K / ⌘K o "/" para saltar a cualquier página, proyecto o perfil.
+// El índice se arma al compilar; el filtrado ocurre en el navegador.
+import { getCollection } from 'astro:content';
+import { site } from '../data/site';
+
+interface Item {
+  label: string;
+  hint?: string;
+  icon: string;
+  href?: string;
+  action?: 'theme';
+  keywords?: string;
+  external?: boolean;
+}
+
+const projects = (await getCollection('proyectos')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const groups: { title: string; items: Item[] }[] = [
+  {
+    title: 'Páginas',
+    items: [
+      { label: 'Inicio', icon: '⌂', href: '/', keywords: 'home portada' },
+      { label: 'Proyectos', icon: '▦', href: '/proyectos/', keywords: 'portafolio trabajos' },
+      { label: 'Sobre mí', icon: '☺', href: '/sobre-mi/', keywords: 'cv experiencia formación certificaciones contacto' },
+    ],
+  },
+  {
+    title: 'Proyectos',
+    items: projects.map((p) => ({
+      label: p.data.title,
+      hint: p.data.tags.slice(0, 3).join(' · '),
+      icon: p.data.icon,
+      href: `/proyectos/${p.id}/`,
+      keywords: `${p.data.tags.join(' ')} ${p.data.description}`,
+    })),
+  },
+  {
+    title: 'Enlaces',
+    items: [
+      ...site.social.map((s) => ({ label: s.label, hint: 'Perfil', icon: '↗', href: s.href, external: true })),
+      { label: 'Cambiar tema', hint: 'Claro / oscuro', icon: '◐', action: 'theme' as const, keywords: 'modo oscuro claro dark light' },
+    ],
+  },
+];
+---
+
+<button type="button" class="search-trigger" aria-label="Buscar (Ctrl+K)" title="Buscar (Ctrl+K)" aria-haspopup="dialog">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+</button>
+
+<dialog class="palette" aria-label="Buscar en el sitio">
+  <div class="field">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+    <input
+      type="text"
+      role="combobox"
+      aria-expanded="true"
+      aria-controls="palette-list"
+      aria-autocomplete="list"
+      aria-label="Buscar páginas y proyectos"
+      placeholder="Buscar páginas y proyectos…"
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <kbd class="esc">Esc</kbd>
+  </div>
+
+  <div class="results" id="palette-list" role="listbox" aria-label="Resultados">
+    {groups.map((group, g) => (
+      <div class="group" role="group" aria-labelledby={`palette-g${g}`}>
+        <p class="group-title" id={`palette-g${g}`} role="presentation">{group.title}</p>
+        {group.items.map((item, i) => (
+          <div
+            class="option"
+            role="option"
+            id={`palette-${g}-${i}`}
+            aria-selected="false"
+            data-href={item.href}
+            data-action={item.action}
+            data-external={item.external ? '' : undefined}
+            data-search={`${item.label} ${item.keywords ?? ''} ${item.hint ?? ''}`}
+            data-title={item.label}
+          >
+            <span class="icon" aria-hidden="true">{item.icon}</span>
+            <span class="label">{item.label}</span>
+            {item.hint && <span class="hint">{item.hint}</span>}
+          </div>
+        ))}
+      </div>
+    ))}
+    <p class="empty" hidden>Sin resultados.</p>
+  </div>
+
+  <div class="footer" aria-hidden="true">
+    <span><kbd>↑</kbd><kbd>↓</kbd> moverse</span>
+    <span><kbd>Enter</kbd> abrir</span>
+    <span><kbd class="mod">Ctrl</kbd><kbd>K</kbd> abrir o cerrar</span>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('.palette')!;
+  const trigger = document.querySelector<HTMLButtonElement>('.search-trigger')!;
+  const input = dialog.querySelector('input')!;
+  const options = [...dialog.querySelectorAll<HTMLElement>('.option')];
+  const groups = [...dialog.querySelectorAll<HTMLElement>('.group')];
+  const empty = dialog.querySelector<HTMLElement>('.empty')!;
+
+  const isMac = /Mac|iPhone|iPad/.test(navigator.platform);
+  if (isMac) {
+    dialog.querySelector('.mod')!.textContent = '⌘';
+    trigger.title = trigger.ariaLabel = 'Buscar (⌘K)';
+  }
+
+  // Sin tildes ni mayúsculas: "pagina" encuentra "Página"
+  const normalize = (s: string) => s.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
+  const haystacks = new Map(options.map((o) => [o, normalize(o.dataset.search!)]));
+  const titles = new Map(options.map((o) => [o, normalize(o.dataset.title!)]));
+
+  let visible = options;
+  let active = 0;
+
+  function setActive(index: number, scroll = true) {
+    if (!visible.length) {
+      input.removeAttribute('aria-activedescendant');
+      return;
+    }
+    active = (index + visible.length) % visible.length;
+    for (const o of options) o.setAttribute('aria-selected', 'false');
+    const el = visible[active];
+    el.setAttribute('aria-selected', 'true');
+    input.setAttribute('aria-activedescendant', el.id);
+    if (scroll) el.scrollIntoView({ block: 'nearest' });
+  }
+
+  function filter() {
+    const words = normalize(input.value).split(/\s+/).filter(Boolean);
+    const matches = (o: HTMLElement) => words.every((w) => haystacks.get(o)!.includes(w));
+    for (const o of options) o.hidden = !matches(o);
+    for (const g of groups) g.hidden = !g.querySelector('.option:not([hidden])');
+    visible = options.filter((o) => !o.hidden);
+    empty.hidden = visible.length > 0;
+    // Preselecciona el primero que coincide por título (p. ej. "react" → un proyecto
+    // llamado React antes que uno que solo lo usa)
+    const byTitle = visible.findIndex((o) => words.every((w) => titles.get(o)!.includes(w)));
+    setActive(words.length && byTitle > 0 ? byTitle : 0);
+  }
+
+  function run(option: HTMLElement | undefined) {
+    if (!option) return;
+    if (option.dataset.action === 'theme') {
+      dialog.close();
+      document.querySelector<HTMLButtonElement>('.theme-toggle')?.click();
+      return;
+    }
+    const href = option.dataset.href!;
+    if (option.dataset.external !== undefined) {
+      window.open(href, '_blank', 'noopener');
+      dialog.close();
+    } else {
+      location.href = href;
+    }
+  }
+
+  function open() {
+    if (dialog.open) return;
+    input.value = '';
+    filter();
+    dialog.showModal();
+    input.focus();
+  }
+
+  trigger.addEventListener('click', open);
+
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      if (dialog.open) dialog.close();
+      else open();
+      return;
+    }
+    // "/" abre la búsqueda, salvo que se esté escribiendo en un campo
+    const target = e.target as HTMLElement;
+    const typing = target.closest('input, textarea, select, [contenteditable]');
+    if (e.key === '/' && !typing && !dialog.open) {
+      e.preventDefault();
+      open();
+    }
+  });
+
+  input.addEventListener('input', filter);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') setActive(active + 1);
+    else if (e.key === 'ArrowUp') setActive(active - 1);
+    else if (e.key === 'Home' && e.ctrlKey) setActive(0);
+    else if (e.key === 'End' && e.ctrlKey) setActive(visible.length - 1);
+    else if (e.key === 'Enter') run(visible[active]);
+    else return;
+    e.preventDefault();
+  });
+
+  for (const o of options) {
+    o.addEventListener('click', () => run(o));
+    // El mouse mueve la selección, sin saltos de scroll
+    o.addEventListener('pointermove', () => {
+      const i = visible.indexOf(o);
+      if (i !== active) setActive(i, false);
+    });
+  }
+
+  // Clic en el fondo (fuera del panel) cierra
+  dialog.addEventListener('click', (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+  dialog.addEventListener('close', () => trigger.focus({ preventScroll: true }));
+</script>
+
+<style>
+  /* Sin JS no hay búsqueda: el botón solo se muestra si hay JS */
+  .search-trigger { display: none; }
+  :global(.js) .search-trigger {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    transition:
+      transform 160ms var(--ease-out),
+      border-color 150ms ease,
+      background-color 150ms ease;
+  }
+  .search-trigger::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+  }
+  .search-trigger:active { transform: scale(0.92); }
+  .search-trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (hover: hover) and (pointer: fine) {
+    .search-trigger:hover { border-color: var(--accent); background: var(--accent-soft); }
+  }
+  /* En celulares no cabe en el header y el atajo de teclado no aplica */
+  @media (max-width: 520px) {
+    :global(.js) .search-trigger { display: none; }
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .palette {
+    width: min(560px, calc(100vw - 2rem));
+    max-height: min(480px, calc(100dvh - 6rem));
+    margin: 12vh auto auto;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 24px 60px -12px rgb(0 0 0 / 0.35);
+    overflow: hidden;
+    flex-direction: column;
+  }
+  .palette[open] {
+    display: flex;
+    animation: palette-in 180ms var(--ease-out);
+  }
+  .palette::backdrop {
+    background: rgb(12 10 9 / 0.45);
+    animation: backdrop-in 180ms ease-out;
+  }
+  @keyframes palette-in {
+    from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+  }
+  @keyframes backdrop-in {
+    from { opacity: 0; }
+  }
+  :global(html:has(.palette[open])) { overflow: hidden; }
+
+  .field {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0 1rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+  }
+  input {
+    flex: 1;
+    min-width: 0;
+    height: 3.25rem;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    font-size: 1rem; /* 16px: evita el zoom al enfocar en iOS */
+    outline: none;
+  }
+  input::placeholder { color: var(--muted); }
+
+  .results {
+    flex: 1;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0.4rem;
+  }
+  .group[hidden],
+  .option[hidden] { display: none; }
+  .group-title {
+    margin: 0;
+    padding: 0.6rem 0.65rem 0.3rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+  }
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    min-height: 44px;
+    padding: 0 0.65rem;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .option[aria-selected='true'] {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .option .icon {
+    display: grid;
+    place-items: center;
+    width: 1.6rem;
+    flex-shrink: 0;
+    font-size: 1rem;
+    line-height: 1;
+  }
+  .label {
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .hint {
+    margin-left: auto;
+    padding-left: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .empty {
+    margin: 0;
+    padding: 1.5rem 0.65rem;
+    text-align: center;
+    color: var(--muted);
+  }
+
+  .footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    padding: 0.55rem 1rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  kbd {
+    display: inline-block;
+    min-width: 1.4em;
+    margin-right: 0.2rem;
+    padding: 0.05rem 0.3rem;
+    border: 1px solid var(--border);
+    border-bottom-width: 2px;
+    border-radius: 5px;
+    background: var(--bg);
+    font: inherit;
+    font-size: 0.7rem;
+    text-align: center;
+  }
+  .esc { margin: 0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .palette[open] { animation-name: backdrop-in; }
+  }
+</style>

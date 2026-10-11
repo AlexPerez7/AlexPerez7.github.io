@@ -1,43 +1,65 @@
-# Astro Starter Kit: Minimal
+# alexperez7.github.io
+
+Portafolio personal de **Alex Pérez Argomedo**, consultor en ciberseguridad (PAM / CyberArk) e
+ingeniero en informática.
+
+**[Ver el sitio »](https://alexperez7.github.io)**
+
+Sitio estático hecho con [Astro](https://astro.build), sin frameworks de UI: componentes `.astro`,
+CSS propio y un poco de JavaScript para las interacciones.
+
+## Qué tiene
+
+- Proyectos como colección de contenido en Markdown, con filtros por tecnología, portadas
+  (generadas o con capturas reales) y navegación anterior/siguiente.
+- Modo claro/oscuro, transiciones entre páginas y animaciones que respetan
+  `prefers-reduced-motion`.
+- Paleta de búsqueda (`Ctrl+K` o `/`) para saltar a cualquier proyecto o página.
+- CV imprimible en "Sobre mí".
+- SEO: Open Graph con una imagen generada por proyecto, datos estructurados, sitemap y 404.
+
+## Desarrollo
+
+Requiere Node.js 22.12 o superior.
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+npm run dev       # servidor local en http://localhost:4321
+npm run build     # genera el sitio en dist/
+npm run preview   # sirve dist/ localmente
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Cada push a `main` se publica automáticamente en GitHub Pages
+(`.github/workflows/deploy.yml`).
 
-## 🚀 Project Structure
+## Dónde editar
 
-Inside of your Astro project, you'll see the following folders and files:
+| Qué                                    | Dónde                              |
+| -------------------------------------- | ---------------------------------- |
+| Nombre, roles, contacto y aptitudes    | `src/data/site.ts`                 |
+| Experiencia, formación, certificaciones | `src/data/cv.ts`                   |
+| Proyectos                              | `src/content/proyectos/*.md`       |
+| Capturas de portada                    | `src/assets/covers/`               |
+| Esquema de los proyectos               | `src/content.config.ts`            |
+| Ideas y mejoras pendientes             | `plan.md`                          |
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+### Agregar un proyecto
+
+Crea `src/content/proyectos/<id>.md`:
+
+```md
+---
+title: Mi proyecto
+description: Una línea que explique qué hace.
+date: 2026-10-11
+tags: [TypeScript, React]
+repo: https://github.com/AlexPerez7/mi-proyecto
+demo: https://...            # opcional
+featured: true               # opcional: aparece en la portada
+color: '#0891b2'             # color de la portada generada
+icon: '🚀'                   # ícono de la portada generada
+cover: ../../assets/covers/mi-proyecto.png  # opcional: captura real
+---
+
+Contenido en Markdown para la página del proyecto.
 ```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).

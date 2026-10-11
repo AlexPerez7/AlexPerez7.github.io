@@ -8,6 +8,7 @@ demo: https://alexperez7.github.io/pam-web-console/
 featured: true
 color: '#0891b2'
 icon: '🛡️'
+cover: ../../assets/covers/pam-web-console.png
 ---
 
 ## El problema

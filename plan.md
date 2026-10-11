@@ -30,20 +30,21 @@ actualiza al terminarla, igual que `CLAUDE.md`.
   Falta crear la cuenta y pasar el ID del formulario.
 - [ ] Sección de notas técnicas sobre PAM / CyberArk, con su propia colección de contenido,
   RSS y etiquetas. `[necesita a Alex]` La estructura es autónoma; los artículos, no.
-- [ ] Capturas reales en las portadas de los proyectos (campo `cover` ya soportado).
-  `[necesita a Alex]`
+- [ ] Capturas reales en las portadas del resto de proyectos (PAM Web Console ya tiene).
+  `[necesita a Alex]` Las demos públicas no sirven tal cual: Gastify muestra solo el login,
+  AutoPedia está sin modelos cargados y Shelf Life abre en la bienvenida. Hacen falta capturas
+  con datos o cargar datos de ejemplo en las demos.
 
 ## Ideas
 
-- Revisión de rendimiento y accesibilidad con Lighthouse; corregir lo que aparezca. `[autónoma]`
 - Versión en inglés del sitio (i18n de Astro) para postular a empresas de fuera. `[autónoma]`
   Requiere revisar las traducciones contigo.
-- Búsqueda o atajo de teclado (`/` o `Ctrl+K`) para saltar entre proyectos. `[autónoma]`
 - Línea de tiempo visual de certificaciones con fechas y enlaces de verificación (Credly u
   otros). `[necesita a Alex]`
 - Estadísticas de GitHub (repos, lenguajes) generadas en el build. `[autónoma]`
 - Analítica respetuosa de la privacidad (Plausible, Umami o GoatCounter). `[necesita a Alex]`
-- Reemplazar el README del starter de Astro por uno propio del portafolio. `[autónoma]`
+- Revisar Lighthouse de nuevo cuando se agreguen secciones o dependencias. `[autónoma]`
+- Ofrecer la búsqueda en móvil (p. ej. un ítem en el menú), si el sitio crece. `[autónoma]`
 
 ## Hecho
 
@@ -59,6 +60,7 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 | 2026-10-10 | SEO: Open Graph, datos estructurados, sitemap, robots.txt, 404, saltar al contenido, anterior/siguiente | `8a70dae` |
 | 2026-10-10 | Imagen social por proyecto, CV imprimible, llamada a contacto, foto optimizada               | `5e220c2` |
 | 2026-10-11 | Proyecto PAM Web Console como primer destacado; AutoPedia deja de ser destacado             | `9481f30` |
+| 2026-10-11 | Portada con captura real de PAM Web Console; README propio; búsqueda con `Ctrl+K` / `/`; Lighthouse 100 en las 4 categorías (orden de encabezados y nombre accesible del logo) | _este commit_ |
 
 ## Descartadas
 
