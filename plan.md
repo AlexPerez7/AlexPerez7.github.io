@@ -46,6 +46,29 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 - Revisar Lighthouse de nuevo cuando se agreguen secciones o dependencias. `[autónoma]`
 - Ofrecer la búsqueda en móvil (p. ej. un ítem en el menú), si el sitio crece. `[autónoma]`
 
+### Revisión de diseño y UX (2026-10-11)
+
+- Capturas enmarcadas: mostrar la captura como "ventana" sobre el degradado del color del
+  proyecto, y atenuarla en modo oscuro. Hoy la de PAM es un bloque blanco entre tarjetas oscuras
+  y a ese tamaño no se lee. `[autónoma]`
+- Página de proyecto en dos columnas en escritorio: contenido + panel lateral fijo con fecha,
+  stack, demo y código. Hoy la columna de 68ch deja vacía la mitad derecha. `[autónoma]`
+- "Sobre mí" en dos columnas: foto, Descargar CV, contacto e idiomas en un panel lateral; la foto
+  no aparece en esta página. `[autónoma]`
+- Hero en escritorio: foto grande a la derecha en vez de encima del saludo, para equilibrar la
+  mitad derecha vacía. `[autónoma]`
+- Etiquetas que llevan a algo: las tecnologías de la página de proyecto y de "Aptitudes" enlazan
+  a `/proyectos/?tag=X` cuando hay proyectos con esa etiqueta. `[autónoma]`
+- Filtros en móvil como una fila con scroll horizontal (hoy ocupan 3 líneas). `[autónoma]`
+- Indicador "Demo" en las tarjetas de proyectos que tienen demo pública. `[autónoma]`
+- Efecto de tecleo del nombre solo en la primera visita de la sesión; en las siguientes, el
+  nombre aparece directo. `[autónoma]`
+- Botón de búsqueda con la pista `Ctrl K` visible en escritorio, para que se descubra el atajo.
+  `[autónoma]`
+- Quitar la animación de apertura de la búsqueda: se abre con teclado y muchas veces seguidas,
+  y la animación la hace sentir lenta. `[autónoma]`
+- Línea del footer alineada con el contenido (hoy sobresale 24 px a cada lado). `[autónoma]`
+
 ## Hecho
 
 | Fecha      | Mejora                                                                                       | Commit    |
