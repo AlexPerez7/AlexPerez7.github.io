@@ -11,7 +11,7 @@ interface Props {
 
 const { project, index = 0, headingLevel = 3 } = Astro.props;
 const Heading = `h${headingLevel}` as 'h2' | 'h3';
-const { title, description, tags } = project.data;
+const { title, description, tags, demo } = project.data;
 ---
 
 <a
@@ -21,6 +21,7 @@ const { title, description, tags } = project.data;
   style={`--i: ${index % 3}; view-transition-name: card-${project.id}`}
 >
   <ProjectCover project={project} />
+  {demo && <span class="demo-badge">Demo<span class="sr-only"> disponible</span></span>}
   <div class="body">
     <div class="title-row">
       <Heading class="title" style={`view-transition-name: project-${project.id}`}>{title}</Heading>
@@ -76,6 +77,31 @@ const { title, description, tags } = project.data;
     .card:hover :global(.tile) {
       transform: translateY(-3px) rotate(-6deg) scale(1.06);
     }
+  }
+  /* Pastilla sobre la portada: el proyecto se puede probar */
+  .demo-badge {
+    position: absolute;
+    top: 0.65rem;
+    right: 0.65rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text);
+    background: color-mix(in srgb, var(--surface) 85%, transparent);
+    border: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .demo-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #22c55e;
   }
   .body {
     display: flex;

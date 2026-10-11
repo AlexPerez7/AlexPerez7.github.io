@@ -1,0 +1,48 @@
+---
+// Etiqueta de tecnología: si hay proyectos con ella, enlaza al listado filtrado.
+interface Props {
+  name: string;
+  href?: string;
+}
+
+const { name, href } = Astro.props;
+---
+
+{href ? (
+  <a class="tag tag-link" href={href} title={`Ver proyectos con ${name}`}>{name}</a>
+) : (
+  <span class="tag">{name}</span>
+)}
+
+<style>
+  .tag-link {
+    text-decoration: none;
+    transition:
+      background-color 150ms ease,
+      color 150ms ease,
+      transform 120ms var(--ease-out);
+  }
+  .tag-link:active { transform: scale(0.96); }
+  /* Táctil: más alto y con área de toque de 44px (las listas dejan 8px entre filas) */
+  @media (pointer: coarse) {
+    .tag-link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
+      padding-inline: 0.8rem;
+    }
+    .tag-link::before {
+      content: '';
+      position: absolute;
+      inset: -4px 0;
+    }
+  }
+  .tag-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (hover: hover) and (pointer: fine) {
+    .tag-link:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+  }
+</style>

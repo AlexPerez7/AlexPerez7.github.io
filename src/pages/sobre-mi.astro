@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import avatar from '../assets/avatar.jpg';
 import Base from '../layouts/Base.astro';
 import { site } from '../data/site';
 import CopyEmail from '../components/CopyEmail.astro';
@@ -15,118 +17,133 @@ const printLinks = site.social
 ---
 
 <Base title="Sobre mí" description={`${site.role} e ${site.title.toLowerCase()} en ${site.location}.`}>
-  <article>
-    <div class="title-row enter">
-      <h1>Sobre mí</h1>
-      <button type="button" class="btn secondary print-cv no-print">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14" />
-        </svg>
-        Descargar CV
-      </button>
-    </div>
-    <!-- Solo al imprimir: encabezado de CV con los datos de contacto -->
-    <div class="print-only cv-head">
-      <p class="cv-name">{site.name}</p>
-      <p>{site.role} · {site.title} · {site.location}</p>
-      <p>{site.email} · {printLinks.join(' · ')}</p>
-    </div>
-    <p class="lead enter" style="--i: 1">
-      Soy {site.name}, {site.title.toLowerCase()} con enfoque en ciberseguridad. Hoy trabajo
-      como {site.role.toLowerCase()} en {site.company}
-    </p>
-    <p class="enter" style="--i: 2">
-      Me especializo en proteger accesos privilegiados, mejorar la resiliencia de sistemas
-      críticos y apoyar a las organizaciones en el cumplimiento de normativas de seguridad. He
-      participado en proyectos de hardening, gestión de vulnerabilidades y auditorías, y me gusta
-      documentar procesos y desarrollar automatizaciones que ahorran trabajo.
-    </p>
-    <p class="enter" style="--i: 3">
-      Fuera del trabajo sigo programando: PWAs que uso a diario, herramientas internas y
-      servidores MCP que conectan la IA con documentación real.
-    </p>
-
-    <section>
-      <h2 class="reveal">Experiencia</h2>
-      <ol class="timeline">
-        {experience.map((job) => (
-          <li class="reveal">
-            <div class="job-head">
-              <div>
-                <h3>{job.role}</h3>
-                <p class="company">{job.company} · {job.location}</p>
-              </div>
-              <span class="period">{job.period}</span>
-            </div>
-            <ul class="highlights">
-              {job.highlights.map((h) => <li>{h}</li>)}
-            </ul>
-          </li>
-        ))}
-      </ol>
-    </section>
-
-    <section>
-      <h2 class="reveal">Formación</h2>
-      <ul class="plain">
-        {education.map((ed) => (
-          <li class="reveal">
-            <div class="job-head">
-              <div>
-                <h3>{ed.title}</h3>
-                <p class="company">{ed.school}</p>
-                {ed.note && (
-                  <p class="note">
-                    {ed.noteHref ? <a href={ed.noteHref}>{ed.note}</a> : ed.note}
-                  </p>
-                )}
-              </div>
-              <span class="period">{ed.period}</span>
-            </div>
-          </li>
+  <div class="title-row enter">
+    <h1>Sobre mí</h1>
+  </div>
+  <div class="layout">
+    <!-- Escritorio: tarjeta de perfil fija a la derecha. Móvil: bajo el título -->
+    <aside class="profile enter no-print" style="--i: 1" aria-label="Perfil y contacto">
+      <div class="who">
+        <Image
+          class="photo"
+          src={avatar}
+          alt={`Foto de ${site.name}`}
+          widths={[72, 144, 240, 400]}
+          sizes="(min-width: 900px) 120px, 72px"
+          loading="eager"
+        />
+        <div>
+          <p class="p-name">{site.name}</p>
+          <p class="p-role">{site.role}</p>
+          <p class="p-role">{site.location}</p>
+        </div>
+      </div>
+      <div class="p-actions">
+        <button type="button" class="btn print-cv">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14" />
+          </svg>
+          Descargar CV
+        </button>
+        <CopyEmail email={site.email} />
+      </div>
+      <ul class="p-links">
+        {site.social.map((s) => (
+          <li><a href={s.href} target="_blank" rel="noopener">{s.label} <span aria-hidden="true">↗</span></a></li>
         ))}
       </ul>
-    </section>
+    </aside>
 
-    <section class="reveal">
-      <h2>Certificaciones</h2>
-      <ul class="certs">
-        {certifications.map((c) => <li>{c}</li>)}
-      </ul>
-    </section>
-
-    <section class="reveal">
-      <h2>Idiomas</h2>
-      <p>
-        Español (nativo){languages.map((l) => `, ${l.name.toLowerCase()} (${l.level.toLowerCase()})`)}.
+    <article>
+      <!-- Solo al imprimir: encabezado de CV con los datos de contacto -->
+      <div class="print-only cv-head">
+        <p class="cv-name">{site.name}</p>
+        <p>{site.role} · {site.title} · {site.location}</p>
+        <p>{site.email} · {printLinks.join(' · ')}</p>
+      </div>
+      <p class="lead enter" style="--i: 1">
+        Soy {site.name}, {site.title.toLowerCase()} con enfoque en ciberseguridad. Hoy trabajo
+        como {site.role.toLowerCase()} en {site.company}
       </p>
-    </section>
-
-    <section class="reveal no-print">
-      <h2>Fuera del código</h2>
-      <ul class="hobbies">
-        <li>⚽ Fútbol</li>
-        <li>🚴 Ciclismo</li>
-        <li>📖 Novelas de suspenso y fantasía</li>
-        <li>🎮 Videojuegos</li>
-      </ul>
-    </section>
-
-    <section class="reveal no-print">
-      <h2>Contacto</h2>
-      <p>
-        ¿Tienes una idea o propuesta? Escríbeme a{' '}
-        <a href={`mailto:${site.email}`}>{site.email}</a> o encuéntrame en{' '}
-        {site.social.map((s, i) => (
-          <>
-            {i > 0 && (i === site.social.length - 1 ? ' y ' : ', ')}
-            <a href={s.href} target="_blank" rel="noopener">{s.label}</a>
-          </>
-        ))}.
+      <p class="enter" style="--i: 2">
+        Me especializo en proteger accesos privilegiados, mejorar la resiliencia de sistemas
+        críticos y apoyar a las organizaciones en el cumplimiento de normativas de seguridad. He
+        participado en proyectos de hardening, gestión de vulnerabilidades y auditorías, y me gusta
+        documentar procesos y desarrollar automatizaciones que ahorran trabajo.
       </p>
-      <CopyEmail email={site.email} />
-    </section>
-  </article>
+      <p class="enter" style="--i: 3">
+        Fuera del trabajo sigo programando: PWAs que uso a diario, herramientas internas y
+        servidores MCP que conectan la IA con documentación real.
+      </p>
+
+      <section>
+        <h2 class="reveal">Experiencia</h2>
+        <ol class="timeline">
+          {experience.map((job) => (
+            <li class="reveal">
+              <div class="job-head">
+                <div>
+                  <h3>{job.role}</h3>
+                  <p class="company">{job.company} · {job.location}</p>
+                </div>
+                <span class="period">{job.period}</span>
+              </div>
+              <ul class="highlights">
+                {job.highlights.map((h) => <li>{h}</li>)}
+              </ul>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section>
+        <h2 class="reveal">Formación</h2>
+        <ul class="plain">
+          {education.map((ed) => (
+            <li class="reveal">
+              <div class="job-head">
+                <div>
+                  <h3>{ed.title}</h3>
+                  <p class="company">{ed.school}</p>
+                  {ed.note && (
+                    <p class="note">
+                      {ed.noteHref ? <a href={ed.noteHref}>{ed.note}</a> : ed.note}
+                    </p>
+                  )}
+                </div>
+                <span class="period">{ed.period}</span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="reveal">
+        <h2>Certificaciones</h2>
+        <ul class="certs">
+          {certifications.map((c) => <li>{c}</li>)}
+        </ul>
+      </section>
+
+      <section class="reveal">
+        <h2>Idiomas</h2>
+        <p>
+          Español (nativo){languages.map((l) => `, ${l.name.toLowerCase()} (${l.level.toLowerCase()})`)}.
+        </p>
+      </section>
+
+      <section class="reveal no-print">
+        <h2>Fuera del código</h2>
+        <ul class="hobbies">
+          <li>⚽ Fútbol</li>
+          <li>🚴 Ciclismo</li>
+          <li>📖 Novelas de suspenso y fantasía</li>
+          <li>🎮 Videojuegos</li>
+        </ul>
+      </section>
+
+    </article>
+  </div>
 </Base>
 
 <script>
@@ -146,9 +163,9 @@ const printLinks = site.social
   .title-row h1 { margin: 0; }
   .print-cv {
     gap: 0.45rem;
+    border: 0;
     font: inherit;
     font-weight: 600;
-    font-size: 0.95rem;
     cursor: pointer;
   }
   .print-cv svg {
@@ -163,6 +180,82 @@ const printLinks = site.social
   .print-only { display: none; }
 
   article { max-width: 68ch; }
+
+  /* ---------- Tarjeta de perfil ---------- */
+  .profile {
+    margin-top: 0.75rem;
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+  .who {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .who p { margin: 0; }
+  .photo {
+    width: 72px;
+    height: 72px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 0 1px var(--border);
+  }
+  .p-name { font-weight: 700; line-height: 1.3; }
+  .p-role { color: var(--muted); font-size: 0.9rem; line-height: 1.4; }
+  .p-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.1rem;
+  }
+  .p-actions > :global(*) { flex: 1 1 10rem; }
+  .p-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 -0.5rem;
+  }
+  .p-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    min-height: 44px;
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .p-links a:hover { text-decoration: underline; }
+  }
+
+
+  /* Escritorio: texto a la izquierda y tarjeta fija a la derecha */
+  @media (min-width: 900px) {
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 15rem;
+      column-gap: 3rem;
+      align-items: start;
+    }
+    .layout > article { grid-column: 1; grid-row: 1; }
+    .profile {
+      grid-column: 2;
+      grid-row: 1;
+      position: sticky;
+      top: 5.5rem;
+      margin-top: 1.1rem; /* alineada con el primer párrafo */
+      text-align: center;
+    }
+    .who { flex-direction: column; gap: 0.75rem; }
+    .photo { width: 120px; height: 120px; }
+    .p-actions { flex-direction: column; }
+    .p-actions > :global(*) { flex: none; width: 100%; }
+    .p-links { justify-content: center; }
+  }
   h1 { font-size: clamp(2rem, 8vw, 2.5rem); }
   .lead { font-size: 1.2rem; color: var(--muted); }
   h2 { margin-top: 2.5rem; }

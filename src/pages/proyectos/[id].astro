@@ -2,6 +2,8 @@
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import ProjectCover from '../../components/ProjectCover.astro';
+import Tag from '../../components/Tag.astro';
+import { getFilterTags, tagHref } from '../../lib/tags';
 
 export async function getStaticPaths() {
   const projects = (await getCollection('proyectos')).sort(
@@ -19,25 +21,39 @@ const { title, description, date, tags, repo, demo } = project.data;
 const { Content } = await render(project);
 const longDate = date.toLocaleDateString('es-ES', { year: 'numeric', month: 'long' });
 const formattedDate = longDate.charAt(0).toUpperCase() + longDate.slice(1);
+const filters = await getFilterTags();
 ---
 
 <Base title={title} description={description} type="article" image={`/og/${project.id}.png`}>
   <article>
-    <a href="/proyectos/" class="back">← Proyectos</a>
-    <ProjectCover project={project} variant="banner" />
-    <h1 style={`view-transition-name: project-${project.id}`}>{title}</h1>
-    <p class="meta enter" style="--i: 1">{formattedDate}</p>
-    <p class="lead enter" style="--i: 2">{description}</p>
-    <ul class="tags enter" style="--i: 3">
-      {tags.map((tag) => <li class="tag">{tag}</li>)}
-    </ul>
-    {(repo || demo) && (
-      <div class="links enter" style="--i: 4">
-        {demo && <a class="btn" href={demo} target="_blank" rel="noopener">Ver demo</a>}
-        {repo && <a class="btn secondary" href={repo} target="_blank" rel="noopener">Código</a>}
+    <header class="head">
+      <a href="/proyectos/" class="back">← Proyectos</a>
+      <ProjectCover project={project} variant="banner" />
+      <h1 style={`view-transition-name: project-${project.id}`}>{title}</h1>
+      <p class="lead enter" style="--i: 1">{description}</p>
+    </header>
+
+    <!-- Escritorio: panel lateral fijo. Móvil: fecha, stack y enlaces bajo la descripción -->
+    <aside class="facts enter" style="--i: 2" aria-label="Datos del proyecto">
+      <div class="fact">
+        <p class="label">Fecha</p>
+        <p class="date">{formattedDate}</p>
       </div>
-    )}
-    <div class="content enter" style="--i: 5">
+      <div class="fact">
+        <p class="label">Stack</p>
+        <ul class="tags">
+          {tags.map((tag) => <li><Tag name={tag} href={tagHref(filters, tag)} /></li>)}
+        </ul>
+      </div>
+      {(repo || demo) && (
+        <div class="links">
+          {demo && <a class="btn" href={demo} target="_blank" rel="noopener">Ver demo</a>}
+          {repo && <a class="btn secondary" href={repo} target="_blank" rel="noopener">Código</a>}
+        </div>
+      )}
+    </aside>
+
+    <div class="content enter" style="--i: 3">
       <Content />
     </div>
 
@@ -63,12 +79,58 @@ const formattedDate = longDate.charAt(0).toUpperCase() + longDate.slice(1);
 <style>
   article { max-width: 68ch; }
   .back { display: inline-flex; align-items: center; min-height: 44px; margin-top: 1rem; text-decoration: none; }
-  h1 { font-size: clamp(2rem, 8vw, 2.5rem); margin: 1.5rem 0 0.25rem; width: fit-content; max-width: 100%; }
-  .meta { color: var(--muted); margin: 0; }
-  .lead { font-size: 1.15rem; }
-  .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; padding: 0; }
-  .links { display: flex; gap: 0.75rem; flex-wrap: wrap; margin: 1.5rem 0; }
+  h1 { font-size: clamp(2rem, 8vw, 2.5rem); margin: 1.5rem 0 0.5rem; width: fit-content; max-width: 100%; }
+  .lead { font-size: 1.15rem; margin: 0; }
+
+  .facts { margin-top: 1rem; }
+  .fact p { margin: 0; }
+  .label { display: none; }
+  .date { color: var(--muted); }
+  .tags { display: flex; flex-wrap: wrap; gap: 0.5rem 0.4rem; list-style: none; padding: 0; margin: 0.75rem 0 0; }
+  .links { display: flex; gap: 0.75rem; flex-wrap: wrap; margin: 1.5rem 0 0; }
   .content { border-top: 1px solid var(--border); margin-top: 2rem; }
+
+  /* Escritorio: contenido a la izquierda y datos del proyecto en un panel fijo a la derecha */
+  @media (min-width: 900px) {
+    article {
+      max-width: none;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 15rem;
+      column-gap: 3rem;
+      align-items: start;
+    }
+    .head,
+    .content,
+    .pager { grid-column: 1; }
+    .facts {
+      grid-column: 2;
+      grid-row: 1 / span 3;
+      position: sticky;
+      top: 5.5rem;
+      /* Alineado con la portada (bajo el enlace "← Proyectos") */
+      margin-top: calc(1rem + 44px);
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      padding: 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+    .label {
+      display: block;
+      margin-bottom: 0.35rem !important;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .date { color: var(--text); }
+    .tags { margin-top: 0; }
+    .links { flex-direction: column; margin-top: 0; }
+    .links .btn { width: 100%; }
+  }
 
   .pager {
     display: grid;

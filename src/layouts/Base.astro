@@ -92,7 +92,8 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
     <header class="site-header">
       <div class="container bar">
-        <a href="/" class="logo" aria-label={`${site.shortName}, inicio`}>
+        <!-- El nombre accesible es siempre el nombre completo; en móvil se ve el monograma -->
+        <a href="/" class="logo">
           <span class="logo-full">{site.shortName}</span>
           <span class="logo-short" aria-hidden="true">AP</span>
         </a>
@@ -219,7 +220,14 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
 
   /* Celulares: monograma en vez del nombre para que quepan menú y selector */
   @media (max-width: 440px) {
-    .logo-full { display: none; }
+    .logo-full {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
     .logo-short {
       display: grid;
       place-items: center;
@@ -251,11 +259,17 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     align-items: center;
     flex-wrap: wrap;
     gap: 0.5rem 1rem;
-    border-top: 1px solid var(--border);
-    padding-top: 1rem;
     padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
     color: var(--muted);
     font-size: 0.9rem;
+  }
+  /* Línea superior como primera fila del flex: queda alineada con el contenido, no con el padding */
+  footer::before {
+    content: '';
+    flex-basis: 100%;
+    height: 1px;
+    margin-bottom: 0.5rem;
+    background: var(--border);
   }
   footer p { margin: 0; }
   footer div {

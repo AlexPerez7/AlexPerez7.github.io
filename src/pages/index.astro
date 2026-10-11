@@ -7,11 +7,14 @@ import ProjectCard from '../components/ProjectCard.astro';
 import TypedText from '../components/TypedText.astro';
 import RotatingText from '../components/RotatingText.astro';
 import CopyEmail from '../components/CopyEmail.astro';
+import Tag from '../components/Tag.astro';
+import { getFilterTags, tagHref } from '../lib/tags';
 import { site } from '../data/site';
 
 const featured = (await getCollection('proyectos', ({ data }) => data.featured)).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
+const filters = await getFilterTags();
 ---
 
 <Base>
@@ -20,9 +23,8 @@ const featured = (await getCollection('proyectos', ({ data }) => data.featured))
       class="avatar enter"
       src={avatar}
       alt={`Foto de ${site.name}`}
-      width={96}
-      height={96}
-      densities={[1, 2, 3]}
+      widths={[96, 192, 240, 400]}
+      sizes="(min-width: 768px) 240px, 96px"
       loading="eager"
       fetchpriority="high"
       style="--i: 0"
@@ -59,7 +61,7 @@ const featured = (await getCollection('proyectos', ({ data }) => data.featured))
         <div class="reveal" style={`--i: ${i}`}>
           <h3>{group}</h3>
           <ul class="skills">
-            {items.map((skill) => <li class="tag">{skill}</li>)}
+            {items.map((skill) => <li><Tag name={skill} href={tagHref(filters, skill)} /></li>)}
           </ul>
         </div>
       ))}
@@ -104,10 +106,34 @@ const featured = (await getCollection('proyectos', ({ data }) => data.featured))
       radial-gradient(35% 45% at 70% 10%, color-mix(in srgb, #ec4899 14%, transparent), transparent 70%);
   }
   .avatar {
+    width: 96px;
+    height: 96px;
+    object-fit: cover;
     border-radius: 50%;
     border: 3px solid var(--surface);
     box-shadow: 0 0 0 1px var(--border);
     margin-bottom: 1.25rem;
+  }
+  /* Escritorio: texto a la izquierda y foto grande a la derecha */
+  @media (min-width: 768px) {
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      column-gap: 3rem;
+      align-items: center;
+    }
+    .hero > :global(*) { grid-column: 1; }
+    .hero > :global(.avatar) {
+      grid-column: 2;
+      grid-row: 1 / span 5;
+      width: 240px;
+      height: 240px;
+      margin: 0;
+      border-width: 6px;
+      box-shadow:
+        0 0 0 1px var(--border),
+        0 24px 60px -20px color-mix(in srgb, var(--accent) 45%, transparent);
+    }
   }
   .eyebrow { margin: 0; color: var(--accent); font-weight: 600; }
   h1 { font-size: clamp(2.25rem, 7vw, 3.75rem); margin: 0.25rem 0 0.75rem; }
@@ -161,7 +187,7 @@ const featured = (await getCollection('proyectos', ({ data }) => data.featured))
   .skills {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.5rem 0.5rem;
     list-style: none;
     padding: 0;
     margin: 0;

@@ -2,17 +2,13 @@
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
+import { getFilterTags } from '../../lib/tags';
 
 const projects = (await getCollection('proyectos')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
 
-// Filtros: tecnologías presentes en al menos 2 proyectos, de más a menos usadas
-const counts = new Map<string, number>();
-for (const p of projects) for (const t of p.data.tags) counts.set(t, (counts.get(t) ?? 0) + 1);
-const filters = [...counts]
-  .filter(([, n]) => n >= 2)
-  .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+const filters = [...(await getFilterTags())];
 ---
 
 <Base title="Proyectos" description="Todos mis proyectos.">
@@ -83,9 +79,21 @@ const filters = [...counts]
     });
   }
 
+  // Fila de filtros (móvil): sin fundido cuando ya se ve el último
+  const row = document.querySelector<HTMLElement>('.filters')!;
+  const syncEnd = () => row.classList.toggle('at-end', row.scrollLeft + row.clientWidth >= row.scrollWidth - 2);
+  row.addEventListener('scroll', syncEnd, { passive: true });
+  addEventListener('resize', syncEnd);
+
   // Filtro inicial desde la URL (?tag=Python)
   const initial = new URL(location.href).searchParams.get('tag') ?? '';
-  if (initial && buttons.some((b) => b.dataset.tag === initial)) select(initial, false);
+  if (initial && buttons.some((b) => b.dataset.tag === initial)) {
+    select(initial, false);
+    // En móvil el filtro activo puede quedar fuera de la fila: se desliza hasta él (sin mover la página)
+    const active = buttons.find((b) => b.dataset.tag === initial)!;
+    row.scrollLeft = active.offsetLeft - row.offsetLeft - 16;
+  }
+  syncEnd();
 </script>
 
 <style>
@@ -97,6 +105,24 @@ const filters = [...counts]
     flex-wrap: wrap;
     gap: 0.5rem;
     margin-bottom: 1.5rem;
+  }
+  /* Móvil: una sola fila que se desliza, de borde a borde, con fundido a la derecha */
+  @media (max-width: 600px) {
+    .filters {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+      margin-inline: calc(-1 * max(1rem, env(safe-area-inset-left)));
+      padding-inline: max(1rem, env(safe-area-inset-left));
+      scroll-padding-inline: 1rem;
+      mask-image: linear-gradient(to right, black calc(100% - 2.5rem), transparent);
+      -webkit-mask-image: linear-gradient(to right, black calc(100% - 2.5rem), transparent);
+    }
+    .filters::-webkit-scrollbar { display: none; }
+    /* Al llegar al final de la fila ya no hay nada que insinuar */
+    .filters.at-end { mask-image: none; -webkit-mask-image: none; }
+    .filter { flex-shrink: 0; }
   }
   .filter {
     display: inline-flex;

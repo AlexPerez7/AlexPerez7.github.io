@@ -3,6 +3,8 @@
 // - El texto completo queda en el HTML (accesible y para buscadores).
 // - Una copia invisible reserva el espacio, así el layout no salta.
 // - Con "reducir movimiento" se muestra completo de inmediato.
+// - Solo se teclea en la primera visita de la sesión; al volver, el texto aparece directo
+//   (marca <html data-typed-seen> para que otros efectos del hero no esperen).
 interface Props {
   text: string;
   delay?: number; // ms antes de empezar
@@ -21,6 +23,14 @@ const { text, delay = 350 } = Astro.props;
       const el = document.currentScript.previousElementSibling;
       if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       const text = el.dataset.text;
+      const key = 'typed:' + text;
+      try {
+        if (sessionStorage.getItem(key)) {
+          document.documentElement.dataset.typedSeen = '';
+          return;
+        }
+        sessionStorage.setItem(key, '1');
+      } catch {}
       const node = document.createTextNode('');
       const caret = document.createElement('span');
       caret.className = 'caret';
