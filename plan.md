@@ -67,7 +67,7 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 | 2026-10-10 | SEO: Open Graph, datos estructurados, sitemap, robots.txt, 404, saltar al contenido, anterior/siguiente | `8a70dae` |
 | 2026-10-10 | Imagen social por proyecto, CV imprimible, llamada a contacto, foto optimizada               | `5e220c2` |
 | 2026-10-11 | Proyecto PAM Web Console como primer destacado; AutoPedia deja de ser destacado             | `9481f30` |
-| 2026-10-11 | Rediseño de escritorio y UX: proyecto y "Sobre mí" en dos columnas con panel fijo, foto grande en el hero, etiquetas que enlazan a los filtros, filtros deslizables en móvil, indicador "Demo", tecleo del nombre solo en la primera visita, botón "Buscar Ctrl K", búsqueda sin animación, footer alineado | _este commit_ |
+| 2026-10-11 | Rediseño de escritorio y UX: proyecto y "Sobre mí" en dos columnas con panel fijo, foto grande en el hero, etiquetas que enlazan a los filtros, filtros deslizables en móvil, indicador "Demo", tecleo del nombre solo en la primera visita, botón "Buscar Ctrl K", búsqueda sin animación, footer alineado | `91d02d2` |
 | 2026-10-11 | Portada con captura real de PAM Web Console; README propio; búsqueda con `Ctrl+K` / `/`; Lighthouse 100 en las 4 categorías (orden de encabezados y nombre accesible del logo) | `e60dafb` |
 
 ## Descartadas
