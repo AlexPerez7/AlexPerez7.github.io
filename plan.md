@@ -19,7 +19,8 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 - Textos en español neutral, sin modismos ni voseo.
 - Antes de subir: `npm run build` sin errores y revisión visual en móvil (390 px) y escritorio,
   en modo claro y oscuro.
-- Animaciones con respeto a `prefers-reduced-motion`; áreas táctiles de al menos 44 px.
+- Animaciones con respeto a `prefers-reduced-motion`, salvo el hero (tecleo del nombre y rotación
+  de roles), que anima siempre por decisión de diseño; áreas táctiles de al menos 44 px.
 - Sin dependencias nuevas salvo que aporten algo que no se pueda hacer razonablemente a mano.
 - Los datos personales se editan en `src/data/site.ts` y `src/data/cv.ts`; los proyectos en
   `src/content/proyectos/*.md`.
@@ -67,6 +68,7 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 | 2026-10-17 | Datos estructurados `SoftwareSourceCode` por proyecto, búsqueda accesible en móvil y repaso de Lighthouse (100 en las 4 categorías en inicio, listado, proyecto y "Sobre mí") | `f7cbf79` |
 | 2026-10-17 | Segunda ronda: `BreadcrumbList` y `keywords` por proyecto, `og:image:alt` específico, índice de secciones en el panel de escritorio, botón Compartir (hoja nativa o copiar enlace) y mantenimiento con Dependabot y `.editorconfig` | `453dc61` |
 | 2026-10-17 | Pulido de diseño: capturas reales como "ventana" sobre el degradado y atenuadas en modo oscuro, foco visible unificado, índice del proyecto con la sección activa al hacer scroll, botón "volver arriba" y `decoding="async"` en portadas y foto | `2d70bb9` |
+| 2026-10-17 | El tecleo del nombre y la rotación de roles del hero se muestran también con `prefers-reduced-motion` (excepción de diseño; el resto del sitio sigue respetándolo) | pendiente |
 
 ## Descartadas
 

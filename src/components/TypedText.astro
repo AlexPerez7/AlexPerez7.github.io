@@ -2,9 +2,10 @@
 // Texto que se "teclea" letra a letra con un cursor.
 // - El texto completo queda en el HTML (accesible y para buscadores).
 // - Una copia invisible reserva el espacio, así el layout no salta.
-// - Con "reducir movimiento" se muestra completo de inmediato.
 // - Solo se teclea en la primera visita de la sesión; al volver, el texto aparece directo
 //   (marca <html data-typed-seen> para que otros efectos del hero no esperen).
+// - Decisión de diseño: el tecleo del hero se muestra también con "reducir movimiento"
+//   (ver la excepción anotada en plan.md).
 interface Props {
   text: string;
   delay?: number; // ms antes de empezar
@@ -25,7 +26,6 @@ const { text, delay = 350 } = Astro.props;
     // Inline y justo después del texto: se vacía antes del primer pintado, sin parpadeo.
     (() => {
       const el = document.currentScript.previousElementSibling;
-      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       const text = el.dataset.text;
       const key = 'typed:' + text;
       try {

@@ -2,8 +2,9 @@
 // Frases que se escriben y se borran en bucle, con cursor.
 // - Los lectores de pantalla reciben la lista completa, sin animación.
 // - Una copia invisible de la frase más larga reserva el espacio (sin saltos de layout).
-// - Con "reducir movimiento" las frases rotan con un fundido, sin tecleo.
 // - Se pausa cuando la pestaña no está visible.
+// - Decisión de diseño: la rotación se muestra también con "reducir movimiento"
+//   (ver la excepción anotada en plan.md).
 interface Props {
   words: string[];
   delay?: number; // ms antes de empezar
@@ -32,9 +33,6 @@ const longest = words.reduce((a, b) => (b.length > a.length ? b : a), '');
       const visible = async () => {
         while (document.hidden) await wait(500);
       };
-
-      // Movimiento reducido: sin rotación, se deja la primera frase fija
-      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
       const node = document.createTextNode('');
       const caret = document.createElement('span');
