@@ -71,6 +71,7 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 | 2026-10-17 | El tecleo del nombre y la rotación de roles del hero se muestran también con `prefers-reduced-motion` (excepción de diseño; el resto del sitio sigue respetándolo) | `f1e88eb` |
 | 2026-10-17 | Paginador de proyectos centrado; cuando hay un solo enlace ocupa todo el ancho | `cd68364` |
 | 2026-10-17 | Retirados los proyectos AutoPedia, Registro de horas en Odoo, AlexBeats y Pandas-AI (quedan 5) | `270b12f` |
+| 2026-10-17 | Agregado NexScreen (segundo monitor para Windows desde una tablet Android) como destacado; Gastify deja de serlo | `2830d76` |
 
 ## Descartadas
 
