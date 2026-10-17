@@ -32,9 +32,9 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 - [ ] Sección de notas técnicas sobre PAM / CyberArk, con su propia colección de contenido,
   RSS y etiquetas. `[necesita a Alex]` La estructura es autónoma; los artículos, no.
 - [ ] Capturas reales en las portadas del resto de proyectos (PAM Web Console ya tiene).
-  `[necesita a Alex]` Las demos públicas no sirven tal cual: Gastify muestra solo el login,
-  AutoPedia está sin modelos cargados y Shelf Life abre en la bienvenida. Hacen falta capturas
-  con datos o cargar datos de ejemplo en las demos.
+  `[necesita a Alex]` Las demos públicas no sirven tal cual: Gastify muestra solo el login y
+  Shelf Life abre en la bienvenida. Hacen falta capturas con datos o cargar datos de ejemplo
+  en las demos.
 
 ## Ideas
 
@@ -70,6 +70,7 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 | 2026-10-17 | Pulido de diseño: capturas reales como "ventana" sobre el degradado y atenuadas en modo oscuro, foco visible unificado, índice del proyecto con la sección activa al hacer scroll, botón "volver arriba" y `decoding="async"` en portadas y foto | `2d70bb9` |
 | 2026-10-17 | El tecleo del nombre y la rotación de roles del hero se muestran también con `prefers-reduced-motion` (excepción de diseño; el resto del sitio sigue respetándolo) | `f1e88eb` |
 | 2026-10-17 | Paginador de proyectos centrado; cuando hay un solo enlace ocupa todo el ancho | `cd68364` |
+| 2026-10-17 | Retirados los proyectos AutoPedia, Registro de horas en Odoo, AlexBeats y Pandas-AI (quedan 5) | `270b12f` |
 
 ## Descartadas
 
