@@ -53,6 +53,28 @@ actualiza al terminarla, igual que `CLAUDE.md`.
   y a ese tamaño no se lee. `[necesita a Alex]` Se hará junto con las capturas del resto de
   proyectos.
 
+### Revisión de código y calidad (2026-10-17)
+
+- Verificación de tipos y CI de comprobación: no hay script `astro check` ni un workflow que
+  compile antes de desplegar, así que un error de tipo llega a `main` sin freno. `[autónoma]`
+- Datos estructurados: el `image` del `personSchema` apunta al avatar remoto de GitHub en vez de
+  a una imagen propia; conviene usar una URL local para no depender de un servicio externo.
+  `[autónoma]`
+- Añadir `twitter:image` (y `twitter:image:alt` por proyecto) para controlar cómo se ve el enlace
+  al compartir en X y WhatsApp. `[autónoma]`
+- Prettier con `prettier-plugin-astro`: sin formateador no hay red de seguridad para el estilo,
+  que hoy se mantiene a mano. Solo afecta al desarrollo, no al sitio. `[autónoma]`
+- Precarga (prefetch) de las páginas del menú para que el cambio de sección con las transiciones
+  nativas sea instantáneo. `[autónoma]`
+- Incluir las aptitudes de `site.skills` en la paleta de búsqueda, enlazando a
+  `/proyectos/?tag=…`, para encontrar una tecnología desde `Ctrl+K`. `[autónoma]`
+- `RotatingText` con "reducir movimiento": hoy mantiene un fundido en bucle infinito; se puede
+  dejar la primera frase fija, como ya hacen `TypedText` y el resto de efectos. `[autónoma]`
+- Fecha del proyecto con `es-CL` en vez de `es-ES`, para ser coherente con el español neutral y
+  el `og:locale` del sitio. `[autónoma]`
+- `<noscript>` que aclare que la búsqueda necesita JavaScript, para quien lo desactive.
+  `[autónoma]`
+
 ## Hecho
 
 | Fecha      | Mejora                                                                                       | Commit    |
