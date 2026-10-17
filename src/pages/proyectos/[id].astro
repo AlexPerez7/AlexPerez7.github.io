@@ -4,6 +4,7 @@ import Base from '../../layouts/Base.astro';
 import ProjectCover from '../../components/ProjectCover.astro';
 import Tag from '../../components/Tag.astro';
 import { getFilterTags, tagHref } from '../../lib/tags';
+import { site } from '../../data/site';
 
 export async function getStaticPaths() {
   const projects = (await getCollection('proyectos')).sort(
@@ -22,9 +23,26 @@ const { Content } = await render(project);
 const longDate = date.toLocaleDateString('es-CL', { year: 'numeric', month: 'long' });
 const formattedDate = longDate.charAt(0).toUpperCase() + longDate.slice(1);
 const filters = await getFilterTags();
+
+// Datos estructurados del proyecto: Google entiende qué es, quién lo hizo y dónde está el código
+const projectSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareSourceCode',
+  name: title,
+  description,
+  datePublished: date.toISOString().slice(0, 10),
+  url: new URL(Astro.url.pathname, Astro.site).href,
+  image: new URL(`/og/${project.id}.png`, Astro.site).href,
+  inLanguage: 'es',
+  keywords: tags.join(', '),
+  author: { '@type': 'Person', name: site.name, url: Astro.site?.href },
+  isPartOf: { '@type': 'WebSite', name: site.name, url: Astro.site?.href },
+  ...(repo ? { codeRepository: repo } : {}),
+};
 ---
 
 <Base title={title} description={description} type="article" image={`/og/${project.id}.png`}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(projectSchema)} />
   <article>
     <header class="head">
       <a href="/proyectos/" class="back">

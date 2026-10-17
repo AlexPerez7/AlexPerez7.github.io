@@ -374,12 +374,6 @@ const groups: { title: string; items: Item[] }[] = [
       color: var(--text);
     }
   }
-  /* En celulares no cabe en el header y el atajo de teclado no aplica */
-  @media (max-width: 520px) {
-    :global(.js) .search-trigger {
-      display: none;
-    }
-  }
 
   svg {
     width: 18px;
