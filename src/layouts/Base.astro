@@ -71,12 +71,6 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
     {keywords && <meta name="keywords" content={keywords} />}
     <link rel="sitemap" href="/sitemap.xml" />
-    <link
-      rel="alternate"
-      type="application/rss+xml"
-      title={`Proyectos de ${site.name}`}
-      href="/proyectos/rss.xml"
-    />
 
     <meta property="og:type" content={type} />
     <meta property="og:locale" content="es_CL" />
