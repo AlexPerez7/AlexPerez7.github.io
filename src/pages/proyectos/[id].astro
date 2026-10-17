@@ -137,13 +137,11 @@ const breadcrumbSchema = {
 
     {(prev || next) && (
       <nav class="pager" aria-label="Más proyectos">
-        {prev ? (
+        {prev && (
           <a href={`/proyectos/${prev.id}/`} rel="prev">
             <span class="dir">← Anterior</span>
             <span class="name">{prev.data.title}</span>
           </a>
-        ) : (
-          <span />
         )}
         {next && (
           <a href={`/proyectos/${next.id}/`} rel="next" class="next">
@@ -338,6 +336,8 @@ const breadcrumbSchema = {
   .pager a {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
     gap: 0.15rem;
     min-height: 44px;
     padding: 0.85rem 1rem;
@@ -355,7 +355,10 @@ const breadcrumbSchema = {
   }
   .pager .next {
     grid-column: 2;
-    text-align: right;
+  }
+  /* Con un solo enlace, ocupa todo el ancho en vez de media rejilla */
+  .pager a:only-child {
+    grid-column: 1 / -1;
   }
   .dir {
     font-size: 0.85rem;
@@ -374,9 +377,6 @@ const breadcrumbSchema = {
   @media (max-width: 480px) {
     .pager {
       grid-template-columns: 1fr;
-    }
-    .pager > span {
-      display: none;
     }
     .pager .next {
       grid-column: auto;
