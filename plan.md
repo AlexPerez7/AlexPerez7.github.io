@@ -44,13 +44,6 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 - Estadísticas de GitHub (repos, lenguajes) generadas en el build. `[autónoma]`
 - Analítica respetuosa de la privacidad (Plausible, Umami o GoatCounter). `[necesita a Alex]`
 
-### Revisión de diseño y UX (2026-10-11)
-
-- Capturas enmarcadas: mostrar la captura como "ventana" sobre el degradado del color del
-  proyecto, y atenuarla en modo oscuro. Hoy la de PAM es un bloque blanco entre tarjetas oscuras
-  y a ese tamaño no se lee. `[necesita a Alex]` Se hará junto con las capturas del resto de
-  proyectos.
-
 ## Hecho
 
 | Fecha      | Mejora                                                                                       | Commit    |
@@ -73,6 +66,7 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 | 2026-10-17 | Formato del código con Prettier (`prettier-plugin-astro`, solo `src/**`) y `format:check` en el workflow de despliegue | `1dda2bc` |
 | 2026-10-17 | Datos estructurados `SoftwareSourceCode` por proyecto, búsqueda accesible en móvil y repaso de Lighthouse (100 en las 4 categorías en inicio, listado, proyecto y "Sobre mí") | `f7cbf79` |
 | 2026-10-17 | Segunda ronda: `BreadcrumbList` y `keywords` por proyecto, `og:image:alt` específico, índice de secciones en el panel de escritorio, botón Compartir (hoja nativa o copiar enlace) y mantenimiento con Dependabot y `.editorconfig` | `453dc61` |
+| 2026-10-17 | Pulido de diseño: capturas reales como "ventana" sobre el degradado y atenuadas en modo oscuro, foco visible unificado, índice del proyecto con la sección activa al hacer scroll, botón "volver arriba" y `decoding="async"` en portadas y foto | `2d70bb9` |
 
 ## Descartadas
 
