@@ -44,6 +44,19 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 - Estadísticas de GitHub (repos, lenguajes) generadas en el build. `[autónoma]`
 - Analítica respetuosa de la privacidad (Plausible, Umami o GoatCounter). `[necesita a Alex]`
 
+### Revisión de código y UX (2026-10-17, segunda ronda)
+
+- Pulido SEO: datos estructurados `BreadcrumbList` (Inicio › Proyectos › Proyecto), `keywords`
+  y un `og:image:alt` específico por proyecto (hoy es genérico con el nombre y el cargo).
+  `[autónoma]`
+- Índice de secciones (TOC) en las páginas de proyecto, que ya tienen varios `##`. `[autónoma]`
+- Botón para copiar el enlace del proyecto (o compartir con `navigator.share` en móvil).
+  `[autónoma]`
+- Feed RSS de proyectos (`/proyectos/rss.xml`), reutilizable cuando existan las notas técnicas.
+  `[autónoma]`
+- Mantenimiento: Dependabot para npm y GitHub Actions, y un `.editorconfig` para el estilo entre
+  editores. `[autónoma]`
+
 ### Revisión de diseño y UX (2026-10-11)
 
 - Capturas enmarcadas: mostrar la captura como "ventana" sobre el degradado del color del
