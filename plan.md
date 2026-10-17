@@ -43,8 +43,6 @@ actualiza al terminarla, igual que `CLAUDE.md`.
   otros). `[necesita a Alex]`
 - Estadísticas de GitHub (repos, lenguajes) generadas en el build. `[autónoma]`
 - Analítica respetuosa de la privacidad (Plausible, Umami o GoatCounter). `[necesita a Alex]`
-- Revisar Lighthouse de nuevo cuando se agreguen secciones o dependencias. `[autónoma]`
-- Ofrecer la búsqueda en móvil (p. ej. un ítem en el menú), si el sitio crece. `[autónoma]`
 
 ### Revisión de diseño y UX (2026-10-11)
 
@@ -73,6 +71,7 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 | 2026-10-17 | Avatar propio en los datos estructurados, `twitter:image`, fecha del proyecto con `es-CL` y aviso `<noscript>` para quien navega sin JavaScript | `0d21960` |
 | 2026-10-17 | Precarga del menú, aptitudes en la paleta de búsqueda y roles del hero fijos con movimiento reducido | `42e416d` |
 | 2026-10-17 | Formato del código con Prettier (`prettier-plugin-astro`, solo `src/**`) y `format:check` en el workflow de despliegue | `1dda2bc` |
+| 2026-10-17 | Datos estructurados `SoftwareSourceCode` por proyecto, búsqueda accesible en móvil y repaso de Lighthouse (100 en las 4 categorías en inicio, listado, proyecto y "Sobre mí") | `f7cbf79` |
 
 ## Descartadas
 
