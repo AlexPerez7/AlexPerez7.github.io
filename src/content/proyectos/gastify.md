@@ -5,7 +5,6 @@ date: 2026-07-31
 tags: [React, Vite, Supabase, PWA]
 repo: https://github.com/AlexPerez7/gastify
 demo: https://alexperez7.github.io/gastify/
-featured: true
 color: '#10b981'
 icon: '💸'
 ---
