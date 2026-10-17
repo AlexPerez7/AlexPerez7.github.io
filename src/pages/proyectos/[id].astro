@@ -27,10 +27,14 @@ const filters = await getFilterTags();
 <Base title={title} description={description} type="article" image={`/og/${project.id}.png`}>
   <article>
     <header class="head">
-      <a href="/proyectos/" class="back">← Proyectos</a>
+      <a href="/proyectos/" class="back">
+        ← Proyectos
+      </a>
       <ProjectCover project={project} variant="banner" />
       <h1 style={`view-transition-name: project-${project.id}`}>{title}</h1>
-      <p class="lead enter" style="--i: 1">{description}</p>
+      <p class="lead enter" style="--i: 1">
+        {description}
+      </p>
     </header>
 
     <!-- Escritorio: panel lateral fijo. Móvil: fecha, stack y enlaces bajo la descripción -->
@@ -42,13 +46,25 @@ const filters = await getFilterTags();
       <div class="fact">
         <p class="label">Stack</p>
         <ul class="tags">
-          {tags.map((tag) => <li><Tag name={tag} href={tagHref(filters, tag)} /></li>)}
+          {tags.map((tag) => (
+            <li>
+              <Tag name={tag} href={tagHref(filters, tag)} />
+            </li>
+          ))}
         </ul>
       </div>
       {(repo || demo) && (
         <div class="links">
-          {demo && <a class="btn" href={demo} target="_blank" rel="noopener">Ver demo</a>}
-          {repo && <a class="btn secondary" href={repo} target="_blank" rel="noopener">Código</a>}
+          {demo && (
+            <a class="btn" href={demo} target="_blank" rel="noopener">
+              Ver demo
+            </a>
+          )}
+          {repo && (
+            <a class="btn secondary" href={repo} target="_blank" rel="noopener">
+              Código
+            </a>
+          )}
         </div>
       )}
     </aside>
@@ -64,7 +80,9 @@ const filters = await getFilterTags();
             <span class="dir">← Anterior</span>
             <span class="name">{prev.data.title}</span>
           </a>
-        ) : <span />}
+        ) : (
+          <span />
+        )}
         {next && (
           <a href={`/proyectos/${next.id}/`} rel="next" class="next">
             <span class="dir">Siguiente →</span>
@@ -77,18 +95,57 @@ const filters = await getFilterTags();
 </Base>
 
 <style>
-  article { max-width: 68ch; }
-  .back { display: inline-flex; align-items: center; min-height: 44px; margin-top: 1rem; text-decoration: none; }
-  h1 { font-size: clamp(2rem, 8vw, 2.5rem); margin: 1.5rem 0 0.5rem; width: fit-content; max-width: 100%; }
-  .lead { font-size: 1.15rem; margin: 0; }
+  article {
+    max-width: 68ch;
+  }
+  .back {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-top: 1rem;
+    text-decoration: none;
+  }
+  h1 {
+    font-size: clamp(2rem, 8vw, 2.5rem);
+    margin: 1.5rem 0 0.5rem;
+    width: fit-content;
+    max-width: 100%;
+  }
+  .lead {
+    font-size: 1.15rem;
+    margin: 0;
+  }
 
-  .facts { margin-top: 1rem; }
-  .fact p { margin: 0; }
-  .label { display: none; }
-  .date { color: var(--muted); }
-  .tags { display: flex; flex-wrap: wrap; gap: 0.5rem 0.4rem; list-style: none; padding: 0; margin: 0.75rem 0 0; }
-  .links { display: flex; gap: 0.75rem; flex-wrap: wrap; margin: 1.5rem 0 0; }
-  .content { border-top: 1px solid var(--border); margin-top: 2rem; }
+  .facts {
+    margin-top: 1rem;
+  }
+  .fact p {
+    margin: 0;
+  }
+  .label {
+    display: none;
+  }
+  .date {
+    color: var(--muted);
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.4rem;
+    list-style: none;
+    padding: 0;
+    margin: 0.75rem 0 0;
+  }
+  .links {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin: 1.5rem 0 0;
+  }
+  .content {
+    border-top: 1px solid var(--border);
+    margin-top: 2rem;
+  }
 
   /* Escritorio: contenido a la izquierda y datos del proyecto en un panel fijo a la derecha */
   @media (min-width: 900px) {
@@ -101,7 +158,9 @@ const filters = await getFilterTags();
     }
     .head,
     .content,
-    .pager { grid-column: 1; }
+    .pager {
+      grid-column: 1;
+    }
     .facts {
       grid-column: 2;
       grid-row: 1 / span 3;
@@ -126,10 +185,19 @@ const filters = await getFilterTags();
       text-transform: uppercase;
       color: var(--muted);
     }
-    .date { color: var(--text); }
-    .tags { margin-top: 0; }
-    .links { flex-direction: column; margin-top: 0; }
-    .links .btn { width: 100%; }
+    .date {
+      color: var(--text);
+    }
+    .tags {
+      margin-top: 0;
+    }
+    .links {
+      flex-direction: column;
+      margin-top: 0;
+    }
+    .links .btn {
+      width: 100%;
+    }
   }
 
   .pager {
@@ -155,16 +223,36 @@ const filters = await getFilterTags();
       border-color 150ms ease,
       transform 120ms var(--ease-out);
   }
-  .pager a:active { transform: scale(0.98); }
-  .pager .next { grid-column: 2; text-align: right; }
-  .dir { font-size: 0.85rem; color: var(--accent); font-weight: 600; }
-  .name { font-weight: 600; overflow-wrap: anywhere; }
+  .pager a:active {
+    transform: scale(0.98);
+  }
+  .pager .next {
+    grid-column: 2;
+    text-align: right;
+  }
+  .dir {
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .name {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
   @media (hover: hover) and (pointer: fine) {
-    .pager a:hover { border-color: var(--accent); }
+    .pager a:hover {
+      border-color: var(--accent);
+    }
   }
   @media (max-width: 480px) {
-    .pager { grid-template-columns: 1fr; }
-    .pager > span { display: none; }
-    .pager .next { grid-column: auto; }
+    .pager {
+      grid-template-columns: 1fr;
+    }
+    .pager > span {
+      display: none;
+    }
+    .pager .next {
+      grid-column: auto;
+    }
   }
 </style>

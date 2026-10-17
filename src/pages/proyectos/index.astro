@@ -30,7 +30,9 @@ const filters = [...(await getFilterTags())];
   <p class="sr-only" aria-live="polite" id="filter-status"></p>
 
   <div class="grid">
-    {projects.map((project, i) => <ProjectCard project={project} index={i} headingLevel={2} />)}
+    {projects.map((project, i) => (
+      <ProjectCard project={project} index={i} headingLevel={2} />
+    ))}
   </div>
 </Base>
 
@@ -81,7 +83,8 @@ const filters = [...(await getFilterTags())];
 
   // Fila de filtros (móvil): sin fundido cuando ya se ve el último
   const row = document.querySelector<HTMLElement>('.filters')!;
-  const syncEnd = () => row.classList.toggle('at-end', row.scrollLeft + row.clientWidth >= row.scrollWidth - 2);
+  const syncEnd = () =>
+    row.classList.toggle('at-end', row.scrollLeft + row.clientWidth >= row.scrollWidth - 2);
   row.addEventListener('scroll', syncEnd, { passive: true });
   addEventListener('resize', syncEnd);
 
@@ -97,8 +100,14 @@ const filters = [...(await getFilterTags())];
 </script>
 
 <style>
-  h1 { font-size: clamp(2rem, 8vw, 2.5rem); margin: 2rem 0 0.5rem; }
-  .intro { color: var(--muted); margin: 0 0 1.5rem; }
+  h1 {
+    font-size: clamp(2rem, 8vw, 2.5rem);
+    margin: 2rem 0 0.5rem;
+  }
+  .intro {
+    color: var(--muted);
+    margin: 0 0 1.5rem;
+  }
 
   .filters {
     display: flex;
@@ -119,10 +128,17 @@ const filters = [...(await getFilterTags())];
       mask-image: linear-gradient(to right, black calc(100% - 2.5rem), transparent);
       -webkit-mask-image: linear-gradient(to right, black calc(100% - 2.5rem), transparent);
     }
-    .filters::-webkit-scrollbar { display: none; }
+    .filters::-webkit-scrollbar {
+      display: none;
+    }
     /* Al llegar al final de la fila ya no hay nada que insinuar */
-    .filters.at-end { mask-image: none; -webkit-mask-image: none; }
-    .filter { flex-shrink: 0; }
+    .filters.at-end {
+      mask-image: none;
+      -webkit-mask-image: none;
+    }
+    .filter {
+      flex-shrink: 0;
+    }
   }
   .filter {
     display: inline-flex;
@@ -145,8 +161,13 @@ const filters = [...(await getFilterTags())];
       color 150ms ease,
       transform 120ms var(--ease-out);
   }
-  .filter:active { transform: scale(0.96); }
-  .filter:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .filter:active {
+    transform: scale(0.96);
+  }
+  .filter:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
   .count {
     font-size: 0.75rem;
     color: var(--muted);
@@ -157,9 +178,13 @@ const filters = [...(await getFilterTags())];
     border-color: var(--accent);
     color: var(--bg);
   }
-  .filter[aria-pressed='true'] .count { color: color-mix(in srgb, var(--bg) 75%, transparent); }
+  .filter[aria-pressed='true'] .count {
+    color: color-mix(in srgb, var(--bg) 75%, transparent);
+  }
   @media (hover: hover) and (pointer: fine) {
-    .filter[aria-pressed='false']:hover { border-color: var(--accent); }
+    .filter[aria-pressed='false']:hover {
+      border-color: var(--accent);
+    }
   }
 
   .grid {

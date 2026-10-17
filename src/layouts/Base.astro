@@ -15,7 +15,13 @@ interface Props {
   noindex?: boolean;
 }
 
-const { title, description = site.tagline, image = '/og.png', type = 'website', noindex = false } = Astro.props;
+const {
+  title,
+  description = site.tagline,
+  image = '/og.png',
+  type = 'website',
+  noindex = false,
+} = Astro.props;
 const pageTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.role} | ${site.title}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
@@ -91,17 +97,25 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     </script>
   </head>
   <body>
-    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <a class="skip-link" href="#contenido">
+      Saltar al contenido
+    </a>
     <header class="site-header">
       <div class="container bar">
         <!-- El nombre accesible es siempre el nombre completo; en móvil se ve el monograma -->
         <a href="/" class="logo">
           <span class="logo-full">{site.shortName}</span>
-          <span class="logo-short" aria-hidden="true">AP</span>
+          <span class="logo-short" aria-hidden="true">
+            AP
+          </span>
         </a>
         <nav aria-label="Principal">
           {nav.map((item) => (
-            <a href={item.href} data-astro-prefetch aria-current={isActive(item.href) ? 'page' : undefined}>
+            <a
+              href={item.href}
+              data-astro-prefetch
+              aria-current={isActive(item.href) ? 'page' : undefined}
+            >
               {item.label}
               {isActive(item.href) && <span class="indicator" aria-hidden="true" />}
             </a>
@@ -114,8 +128,8 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
 
     <noscript>
       <p class="noscript-note container">
-        La búsqueda (Ctrl K) y el cambio de tema necesitan JavaScript; el resto del sitio
-        funciona sin él.
+        La búsqueda (Ctrl K) y el cambio de tema necesitan JavaScript; el resto del sitio funciona
+        sin él.
       </p>
     </noscript>
 
@@ -124,9 +138,15 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     </main>
 
     <footer class="container">
-      <p>© {new Date().getFullYear()} {site.name}</p>
+      <p>
+        © {new Date().getFullYear()} {site.name}
+      </p>
       <div>
-        {site.social.map((s) => <a href={s.href} target="_blank" rel="noopener">{s.label}</a>)}
+        {site.social.map((s) => (
+          <a href={s.href} target="_blank" rel="noopener">
+            {s.label}
+          </a>
+        ))}
       </div>
     </footer>
 
@@ -163,8 +183,12 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     translate: 0 -200%;
     transition: translate 150ms var(--ease-out);
   }
-  .skip-link:focus { translate: none; }
-  main:focus { outline: none; }
+  .skip-link:focus {
+    translate: none;
+  }
+  main:focus {
+    outline: none;
+  }
 
   /* Aviso para quien navega sin JavaScript (solo se ve entonces) */
   .noscript-note {
@@ -199,7 +223,9 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     white-space: nowrap;
     padding: 0.5rem 0;
   }
-  .logo-short { display: none; }
+  .logo-short {
+    display: none;
+  }
   nav {
     display: flex;
     gap: 0.25rem;
@@ -217,7 +243,9 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     transition: color 150ms ease;
   }
   @media (hover: hover) and (pointer: fine) {
-    nav a:hover { color: var(--text); }
+    nav a:hover {
+      color: var(--text);
+    }
   }
   nav a[aria-current='page'] {
     color: var(--text);
@@ -256,14 +284,29 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
       font-size: 0.8rem;
       letter-spacing: 0.02em;
     }
-    .bar { gap: 0.25rem; }
-    nav { gap: 0; }
-    nav a { padding: 0 0.5rem; }
-    .indicator { left: 0.5rem; right: 0.5rem; }
+    .bar {
+      gap: 0.25rem;
+    }
+    nav {
+      gap: 0;
+    }
+    nav a {
+      padding: 0 0.5rem;
+    }
+    .indicator {
+      left: 0.5rem;
+      right: 0.5rem;
+    }
   }
   @media (max-width: 350px) {
-    nav a { padding: 0 0.35rem; font-size: 0.9rem; }
-    .indicator { left: 0.35rem; right: 0.35rem; }
+    nav a {
+      padding: 0 0.35rem;
+      font-size: 0.9rem;
+    }
+    .indicator {
+      left: 0.35rem;
+      right: 0.35rem;
+    }
   }
 
   main {
@@ -288,7 +331,9 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     margin-bottom: 0.5rem;
     background: var(--border);
   }
-  footer p { margin: 0; }
+  footer p {
+    margin: 0;
+  }
   footer div {
     display: flex;
     flex-wrap: wrap;

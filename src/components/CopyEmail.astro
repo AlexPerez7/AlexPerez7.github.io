@@ -21,7 +21,9 @@ const { email, class: className } = Astro.props;
   </span>
   <span class="labels">
     <span class="label idle">Copiar email</span>
-    <span class="label done" aria-hidden="true">¡Copiado!</span>
+    <span class="label done" aria-hidden="true">
+      ¡Copiado!
+    </span>
   </span>
   <span class="sr-only" aria-live="polite"></span>
 </button>
@@ -60,7 +62,10 @@ const { email, class: className } = Astro.props;
       border-color 200ms ease,
       color 200ms ease;
   }
-  .copy-email:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .copy-email:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
   .copy-email[data-copied] {
     --success: light-dark(#047857, #34d399);
     border-color: var(--success);
@@ -99,14 +104,32 @@ const { email, class: className } = Astro.props;
       transform 200ms var(--ease-out);
   }
 
-  [data-copied] .copy { opacity: 0; transform: scale(0.5); }
-  [data-copied] .check { opacity: 1; transform: none; }
-  [data-copied] .label.idle { opacity: 0; transform: translateY(-6px); }
-  .label.done { opacity: 0; transform: translateY(6px); }
-  [data-copied] .label.done { opacity: 1; transform: none; }
+  [data-copied] .copy {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  [data-copied] .check {
+    opacity: 1;
+    transform: none;
+  }
+  [data-copied] .label.idle {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  .label.done {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  [data-copied] .label.done {
+    opacity: 1;
+    transform: none;
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .icon,
-    .label { transition: opacity 150ms ease; transform: none !important; }
+    .label {
+      transition: opacity 150ms ease;
+      transform: none !important;
+    }
   }
 </style>

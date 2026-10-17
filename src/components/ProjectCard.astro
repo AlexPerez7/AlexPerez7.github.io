@@ -21,15 +21,25 @@ const { title, description, tags, demo } = project.data;
   style={`--i: ${index % 3}; view-transition-name: card-${project.id}`}
 >
   <ProjectCover project={project} />
-  {demo && <span class="demo-badge">Demo<span class="sr-only"> disponible</span></span>}
+  {demo && (
+    <span class="demo-badge">
+      Demo<span class="sr-only"> disponible</span>
+    </span>
+  )}
   <div class="body">
     <div class="title-row">
-      <Heading class="title" style={`view-transition-name: project-${project.id}`}>{title}</Heading>
-      <span class="arrow" aria-hidden="true">→</span>
+      <Heading class="title" style={`view-transition-name: project-${project.id}`}>
+        {title}
+      </Heading>
+      <span class="arrow" aria-hidden="true">
+        →
+      </span>
     </div>
     <p>{description}</p>
     <ul>
-      {tags.map((tag) => <li class="tag">{tag}</li>)}
+      {tags.map((tag) => (
+        <li class="tag">{tag}</li>
+      ))}
     </ul>
   </div>
 </a>
@@ -46,7 +56,9 @@ const { title, description, tags, demo } = project.data;
     color: inherit;
     text-decoration: none;
   }
-  .card[hidden] { display: none; }
+  .card[hidden] {
+    display: none;
+  }
   .card {
     transition:
       transform 200ms var(--ease-out),
@@ -63,7 +75,9 @@ const { title, description, tags, demo } = project.data;
       box-shadow 200ms ease;
     transition-delay: calc(var(--i) * 60ms), calc(var(--i) * 60ms), 0s, 0s, 0s;
   }
-  .card:active { transform: scale(0.98); }
+  .card:active {
+    transform: scale(0.98);
+  }
   @media (hover: hover) and (pointer: fine) {
     .card:hover {
       border-color: var(--accent);
@@ -116,8 +130,16 @@ const { title, description, tags, demo } = project.data;
     justify-content: space-between;
     gap: 0.5rem;
   }
-  .title { margin: 0; font-size: 1.15rem; width: fit-content; }
-  p { margin: 0; color: var(--muted); flex: 1; }
+  .title {
+    margin: 0;
+    font-size: 1.15rem;
+    width: fit-content;
+  }
+  p {
+    margin: 0;
+    color: var(--muted);
+    flex: 1;
+  }
   ul {
     display: flex;
     flex-wrap: wrap;
@@ -136,11 +158,20 @@ const { title, description, tags, demo } = project.data;
   }
   /* En pantallas táctiles la flecha siempre visible: indica que es tocable */
   @media not ((hover: hover) and (pointer: fine)) {
-    .arrow { opacity: 0.7; transform: none; }
+    .arrow {
+      opacity: 0.7;
+      transform: none;
+    }
   }
   @media (prefers-reduced-motion: reduce) {
-    .card:hover { transform: none; }
-    .card:hover :global(.tile) { transform: none; }
-    .arrow { transform: none; }
+    .card:hover {
+      transform: none;
+    }
+    .card:hover :global(.tile) {
+      transform: none;
+    }
+    .arrow {
+      transform: none;
+    }
   }
 </style>

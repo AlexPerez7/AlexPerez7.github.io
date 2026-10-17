@@ -26,7 +26,12 @@ const groups: { title: string; items: Item[] }[] = [
     items: [
       { label: 'Inicio', icon: '⌂', href: '/', keywords: 'home portada' },
       { label: 'Proyectos', icon: '▦', href: '/proyectos/', keywords: 'portafolio trabajos' },
-      { label: 'Sobre mí', icon: '☺', href: '/sobre-mi/', keywords: 'cv experiencia formación certificaciones contacto' },
+      {
+        label: 'Sobre mí',
+        icon: '☺',
+        href: '/sobre-mi/',
+        keywords: 'cv experiencia formación certificaciones contacto',
+      },
     ],
   },
   {
@@ -55,8 +60,20 @@ const groups: { title: string; items: Item[] }[] = [
   {
     title: 'Enlaces',
     items: [
-      ...site.social.map((s) => ({ label: s.label, hint: 'Perfil', icon: '↗', href: s.href, external: true })),
-      { label: 'Cambiar tema', hint: 'Claro / oscuro', icon: '◐', action: 'theme' as const, keywords: 'modo oscuro claro dark light' },
+      ...site.social.map((s) => ({
+        label: s.label,
+        hint: 'Perfil',
+        icon: '↗',
+        href: s.href,
+        external: true,
+      })),
+      {
+        label: 'Cambiar tema',
+        hint: 'Claro / oscuro',
+        icon: '◐',
+        action: 'theme' as const,
+        keywords: 'modo oscuro claro dark light',
+      },
     ],
   },
 ];
@@ -69,15 +86,24 @@ const groups: { title: string; items: Item[] }[] = [
   title="Buscar (Ctrl+K)"
   aria-haspopup="dialog"
 >
-  <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="11" cy="11" r="7" />
+    <path d="m20 20-3.5-3.5" />
+  </svg>
   <!-- El texto da el nombre accesible; en escritorio también se ve, junto al atajo -->
   <span class="trigger-text">Buscar</span>
-  <span class="trigger-keys" aria-hidden="true"><kbd class="mod">Ctrl</kbd><kbd>K</kbd></span>
+  <span class="trigger-keys" aria-hidden="true">
+    <kbd class="mod">Ctrl</kbd>
+    <kbd>K</kbd>
+  </span>
 </button>
 
 <dialog class="palette" aria-label="Buscar en el sitio">
   <div class="field">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="11" cy="11" r="7" />
+      <path d="m20 20-3.5-3.5" />
+    </svg>
     <input
       type="text"
       role="combobox"
@@ -95,7 +121,9 @@ const groups: { title: string; items: Item[] }[] = [
   <div class="results" id="palette-list" role="listbox" aria-label="Resultados">
     {groups.map((group, g) => (
       <div class="group" role="group" aria-labelledby={`palette-g${g}`}>
-        <p class="group-title" id={`palette-g${g}`} role="presentation">{group.title}</p>
+        <p class="group-title" id={`palette-g${g}`} role="presentation">
+          {group.title}
+        </p>
         {group.items.map((item, i) => (
           <div
             class="option"
@@ -108,20 +136,32 @@ const groups: { title: string; items: Item[] }[] = [
             data-search={`${item.label} ${item.keywords ?? ''} ${item.hint ?? ''}`}
             data-title={item.label}
           >
-            <span class="icon" aria-hidden="true">{item.icon}</span>
+            <span class="icon" aria-hidden="true">
+              {item.icon}
+            </span>
             <span class="label">{item.label}</span>
             {item.hint && <span class="hint">{item.hint}</span>}
           </div>
         ))}
       </div>
     ))}
-    <p class="empty" hidden>Sin resultados.</p>
+    <p class="empty" hidden>
+      Sin resultados.
+    </p>
   </div>
 
   <div class="footer" aria-hidden="true">
-    <span><kbd>↑</kbd><kbd>↓</kbd> moverse</span>
-    <span><kbd>Enter</kbd> abrir</span>
-    <span><kbd class="mod">Ctrl</kbd><kbd>K</kbd> abrir o cerrar</span>
+    <span>
+      <kbd>↑</kbd>
+      <kbd>↓</kbd> moverse
+    </span>
+    <span>
+      <kbd>Enter</kbd> abrir
+    </span>
+    <span>
+      <kbd class="mod">Ctrl</kbd>
+      <kbd>K</kbd> abrir o cerrar
+    </span>
   </div>
 </dialog>
 
@@ -135,7 +175,9 @@ const groups: { title: string; items: Item[] }[] = [
 
   const isMac = /Mac|iPhone|iPad/.test(navigator.platform);
   if (isMac) {
-    document.querySelectorAll('.search-trigger .mod, .palette .mod').forEach((k) => (k.textContent = '⌘'));
+    document
+      .querySelectorAll('.search-trigger .mod, .palette .mod')
+      .forEach((k) => (k.textContent = '⌘'));
     trigger.title = 'Buscar (⌘K)';
     trigger.setAttribute('aria-keyshortcuts', 'Meta+K /');
   }
@@ -245,7 +287,9 @@ const groups: { title: string; items: Item[] }[] = [
 
 <style>
   /* Sin JS no hay búsqueda: el botón solo se muestra si hay JS */
-  .search-trigger { display: none; }
+  .search-trigger {
+    display: none;
+  }
   :global(.js) .search-trigger {
     position: relative;
     display: inline-grid;
@@ -271,10 +315,18 @@ const groups: { title: string; items: Item[] }[] = [
     position: absolute;
     inset: -2px;
   }
-  .search-trigger:active { transform: scale(0.92); }
-  .search-trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .search-trigger:active {
+    transform: scale(0.92);
+  }
+  .search-trigger:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
   @media (hover: hover) and (pointer: fine) {
-    .search-trigger:hover { border-color: var(--accent); background: var(--accent-soft); }
+    .search-trigger:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
   }
   .trigger-text {
     position: absolute;
@@ -284,7 +336,9 @@ const groups: { title: string; items: Item[] }[] = [
     clip-path: inset(50%);
     white-space: nowrap;
   }
-  .trigger-keys { display: none; }
+  .trigger-keys {
+    display: none;
+  }
   /* Escritorio: pastilla con "Buscar" y el atajo */
   @media (min-width: 900px) {
     :global(.js) .search-trigger {
@@ -298,17 +352,33 @@ const groups: { title: string; items: Item[] }[] = [
       font: inherit;
       font-size: 0.9rem;
     }
-    .trigger-text { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
-    .trigger-keys { display: inline-flex; }
-    .search-trigger kbd { margin-right: 0.15rem; }
-    .search-trigger .trigger-keys kbd:last-child { margin-right: 0; }
+    .trigger-text {
+      position: static;
+      width: auto;
+      height: auto;
+      overflow: visible;
+      clip-path: none;
+    }
+    .trigger-keys {
+      display: inline-flex;
+    }
+    .search-trigger kbd {
+      margin-right: 0.15rem;
+    }
+    .search-trigger .trigger-keys kbd:last-child {
+      margin-right: 0;
+    }
   }
   @media (min-width: 900px) and (hover: hover) and (pointer: fine) {
-    .search-trigger:hover { color: var(--text); }
+    .search-trigger:hover {
+      color: var(--text);
+    }
   }
   /* En celulares no cabe en el header y el atajo de teclado no aplica */
   @media (max-width: 520px) {
-    :global(.js) .search-trigger { display: none; }
+    :global(.js) .search-trigger {
+      display: none;
+    }
   }
 
   svg {
@@ -335,9 +405,15 @@ const groups: { title: string; items: Item[] }[] = [
     flex-direction: column;
   }
   /* Sin animación de apertura: se abre con teclado y muchas veces seguidas */
-  .palette[open] { display: flex; }
-  .palette::backdrop { background: rgb(12 10 9 / 0.45); }
-  :global(html:has(.palette[open])) { overflow: hidden; }
+  .palette[open] {
+    display: flex;
+  }
+  .palette::backdrop {
+    background: rgb(12 10 9 / 0.45);
+  }
+  :global(html:has(.palette[open])) {
+    overflow: hidden;
+  }
 
   .field {
     display: flex;
@@ -358,7 +434,9 @@ const groups: { title: string; items: Item[] }[] = [
     font-size: 1rem; /* 16px: evita el zoom al enfocar en iOS */
     outline: none;
   }
-  input::placeholder { color: var(--muted); }
+  input::placeholder {
+    color: var(--muted);
+  }
 
   .results {
     flex: 1;
@@ -367,7 +445,9 @@ const groups: { title: string; items: Item[] }[] = [
     padding: 0.4rem;
   }
   .group[hidden],
-  .option[hidden] { display: none; }
+  .option[hidden] {
+    display: none;
+  }
   .group-title {
     margin: 0;
     padding: 0.6rem 0.65rem 0.3rem;
@@ -443,6 +523,7 @@ const groups: { title: string; items: Item[] }[] = [
     font-size: 0.7rem;
     text-align: center;
   }
-  .esc { margin: 0; }
-
+  .esc {
+    margin: 0;
+  }
 </style>

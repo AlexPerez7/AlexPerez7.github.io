@@ -1,0 +1,8 @@
+dist/
+node_modules/
+.astro/
+public/
+package-lock.json
+
+# Documentos escritos a mano: no se reformatean
+*.md

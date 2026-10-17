@@ -16,7 +16,10 @@ const printLinks = site.social
   });
 ---
 
-<Base title="Sobre mí" description={`${site.role} e ${site.title.toLowerCase()} en ${site.location}.`}>
+<Base
+  title="Sobre mí"
+  description={`${site.role} e ${site.title.toLowerCase()} en ${site.location}.`}
+>
   <div class="title-row enter">
     <h1>Sobre mí</h1>
   </div>
@@ -49,7 +52,11 @@ const printLinks = site.social
       </div>
       <ul class="p-links">
         {site.social.map((s) => (
-          <li><a href={s.href} target="_blank" rel="noopener">{s.label} <span aria-hidden="true">↗</span></a></li>
+          <li>
+            <a href={s.href} target="_blank" rel="noopener">
+              {s.label} <span aria-hidden="true">↗</span>
+            </a>
+          </li>
         ))}
       </ul>
     </aside>
@@ -58,12 +65,16 @@ const printLinks = site.social
       <!-- Solo al imprimir: encabezado de CV con los datos de contacto -->
       <div class="print-only cv-head">
         <p class="cv-name">{site.name}</p>
-        <p>{site.role} · {site.title} · {site.location}</p>
-        <p>{site.email} · {printLinks.join(' · ')}</p>
+        <p>
+          {site.role} · {site.title} · {site.location}
+        </p>
+        <p>
+          {site.email} · {printLinks.join(' · ')}
+        </p>
       </div>
       <p class="lead enter" style="--i: 1">
-        Soy {site.name}, {site.title.toLowerCase()} con enfoque en ciberseguridad. Hoy trabajo
-        como {site.role.toLowerCase()} en {site.company}
+        Soy {site.name}, {site.title.toLowerCase()} con enfoque en ciberseguridad. Hoy trabajo como{' '}
+        {site.role.toLowerCase()} en {site.company}
       </p>
       <p class="enter" style="--i: 2">
         Me especializo en proteger accesos privilegiados, mejorar la resiliencia de sistemas
@@ -84,12 +95,16 @@ const printLinks = site.social
               <div class="job-head">
                 <div>
                   <h3>{job.role}</h3>
-                  <p class="company">{job.company} · {job.location}</p>
+                  <p class="company">
+                    {job.company} · {job.location}
+                  </p>
                 </div>
                 <span class="period">{job.period}</span>
               </div>
               <ul class="highlights">
-                {job.highlights.map((h) => <li>{h}</li>)}
+                {job.highlights.map((h) => (
+                  <li>{h}</li>
+                ))}
               </ul>
             </li>
           ))}
@@ -121,14 +136,17 @@ const printLinks = site.social
       <section class="reveal">
         <h2>Certificaciones</h2>
         <ul class="certs">
-          {certifications.map((c) => <li>{c}</li>)}
+          {certifications.map((c) => (
+            <li>{c}</li>
+          ))}
         </ul>
       </section>
 
       <section class="reveal">
         <h2>Idiomas</h2>
         <p>
-          Español (nativo){languages.map((l) => `, ${l.name.toLowerCase()} (${l.level.toLowerCase()})`)}.
+          Español (nativo)
+          {languages.map((l) => `, ${l.name.toLowerCase()} (${l.level.toLowerCase()})`)}.
         </p>
       </section>
 
@@ -141,7 +159,6 @@ const printLinks = site.social
           <li>🎮 Videojuegos</li>
         </ul>
       </section>
-
     </article>
   </div>
 </Base>
@@ -160,7 +177,9 @@ const printLinks = site.social
     gap: 0.5rem 1rem;
     margin: 2rem 0 0.5rem;
   }
-  .title-row h1 { margin: 0; }
+  .title-row h1 {
+    margin: 0;
+  }
   .print-cv {
     gap: 0.45rem;
     border: 0;
@@ -177,9 +196,13 @@ const printLinks = site.social
     stroke-linecap: round;
     stroke-linejoin: round;
   }
-  .print-only { display: none; }
+  .print-only {
+    display: none;
+  }
 
-  article { max-width: 68ch; }
+  article {
+    max-width: 68ch;
+  }
 
   /* ---------- Tarjeta de perfil ---------- */
   .profile {
@@ -194,7 +217,9 @@ const printLinks = site.social
     align-items: center;
     gap: 1rem;
   }
-  .who p { margin: 0; }
+  .who p {
+    margin: 0;
+  }
   .photo {
     width: 72px;
     height: 72px;
@@ -203,15 +228,24 @@ const printLinks = site.social
     object-fit: cover;
     box-shadow: 0 0 0 1px var(--border);
   }
-  .p-name { font-weight: 700; line-height: 1.3; }
-  .p-role { color: var(--muted); font-size: 0.9rem; line-height: 1.4; }
+  .p-name {
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .p-role {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
   .p-actions {
     display: flex;
     flex-wrap: wrap;
     gap: 0.6rem;
     margin-top: 1.1rem;
   }
-  .p-actions > :global(*) { flex: 1 1 10rem; }
+  .p-actions > :global(*) {
+    flex: 1 1 10rem;
+  }
   .p-links {
     display: flex;
     flex-wrap: wrap;
@@ -229,9 +263,10 @@ const printLinks = site.social
     font-size: 0.95rem;
   }
   @media (hover: hover) and (pointer: fine) {
-    .p-links a:hover { text-decoration: underline; }
+    .p-links a:hover {
+      text-decoration: underline;
+    }
   }
-
 
   /* Escritorio: texto a la izquierda y tarjeta fija a la derecha */
   @media (min-width: 900px) {
@@ -241,7 +276,10 @@ const printLinks = site.social
       column-gap: 3rem;
       align-items: start;
     }
-    .layout > article { grid-column: 1; grid-row: 1; }
+    .layout > article {
+      grid-column: 1;
+      grid-row: 1;
+    }
     .profile {
       grid-column: 2;
       grid-row: 1;
@@ -250,16 +288,39 @@ const printLinks = site.social
       margin-top: 1.1rem; /* alineada con el primer párrafo */
       text-align: center;
     }
-    .who { flex-direction: column; gap: 0.75rem; }
-    .photo { width: 120px; height: 120px; }
-    .p-actions { flex-direction: column; }
-    .p-actions > :global(*) { flex: none; width: 100%; }
-    .p-links { justify-content: center; }
+    .who {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .photo {
+      width: 120px;
+      height: 120px;
+    }
+    .p-actions {
+      flex-direction: column;
+    }
+    .p-actions > :global(*) {
+      flex: none;
+      width: 100%;
+    }
+    .p-links {
+      justify-content: center;
+    }
   }
-  h1 { font-size: clamp(2rem, 8vw, 2.5rem); }
-  .lead { font-size: 1.2rem; color: var(--muted); }
-  h2 { margin-top: 2.5rem; }
-  h3 { margin: 0; font-size: 1.05rem; }
+  h1 {
+    font-size: clamp(2rem, 8vw, 2.5rem);
+  }
+  .lead {
+    font-size: 1.2rem;
+    color: var(--muted);
+  }
+  h2 {
+    margin-top: 2.5rem;
+  }
+  h3 {
+    margin: 0;
+    font-size: 1.05rem;
+  }
 
   .timeline,
   .plain {
@@ -295,18 +356,35 @@ const printLinks = site.social
     gap: 0.5rem 1rem;
     flex-wrap: wrap;
   }
-  .company { margin: 0.1rem 0 0; color: var(--muted); overflow-wrap: anywhere; }
-  .period { color: var(--muted); font-size: 0.9rem; white-space: nowrap; }
-  .note { margin: 0.25rem 0 0; font-size: 0.95rem; }
+  .company {
+    margin: 0.1rem 0 0;
+    color: var(--muted);
+    overflow-wrap: anywhere;
+  }
+  .period {
+    color: var(--muted);
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+  .note {
+    margin: 0.25rem 0 0;
+    font-size: 0.95rem;
+  }
   .highlights {
     margin: 0.75rem 0 0;
     padding-left: 1.1rem;
     color: var(--muted);
   }
-  .highlights li + li { margin-top: 0.3rem; }
+  .highlights li + li {
+    margin-top: 0.3rem;
+  }
 
-  .certs { padding-left: 1.1rem; }
-  .certs li + li { margin-top: 0.3rem; }
+  .certs {
+    padding-left: 1.1rem;
+  }
+  .certs li + li {
+    margin-top: 0.3rem;
+  }
 
   .hobbies {
     display: flex;
@@ -324,18 +402,55 @@ const printLinks = site.social
 
   /* ---------- CV impreso / PDF ---------- */
   @media print {
-    .print-only { display: block; }
-    .title-row { display: none; }
-    .cv-head { margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid #d6d3d1; }
-    .cv-head p { margin: 0; color: #44403c; font-size: 10pt; }
-    .cv-name { font-size: 20pt !important; font-weight: 700; color: #000 !important; }
-    .lead { font-size: 11pt; color: #000; }
-    h2 { margin-top: 1.25rem; font-size: 13pt; }
-    h3 { font-size: 11pt; }
-    .timeline > li { padding-top: 0.5rem; padding-bottom: 0.5rem; break-inside: avoid; }
-    .timeline > li::before { top: 0.85rem; }
-    .plain > li { padding: 0.5rem 0; break-inside: avoid; }
-    .highlights { margin-top: 0.35rem; }
-    .highlights li + li { margin-top: 0.1rem; }
+    .print-only {
+      display: block;
+    }
+    .title-row {
+      display: none;
+    }
+    .cv-head {
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #d6d3d1;
+    }
+    .cv-head p {
+      margin: 0;
+      color: #44403c;
+      font-size: 10pt;
+    }
+    .cv-name {
+      font-size: 20pt !important;
+      font-weight: 700;
+      color: #000 !important;
+    }
+    .lead {
+      font-size: 11pt;
+      color: #000;
+    }
+    h2 {
+      margin-top: 1.25rem;
+      font-size: 13pt;
+    }
+    h3 {
+      font-size: 11pt;
+    }
+    .timeline > li {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      break-inside: avoid;
+    }
+    .timeline > li::before {
+      top: 0.85rem;
+    }
+    .plain > li {
+      padding: 0.5rem 0;
+      break-inside: avoid;
+    }
+    .highlights {
+      margin-top: 0.35rem;
+    }
+    .highlights li + li {
+      margin-top: 0.1rem;
+    }
   }
 </style>

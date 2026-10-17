@@ -24,15 +24,18 @@ Requiere Node.js 22.12 o superior.
 
 ```sh
 npm install
-npm run dev       # servidor local en http://localhost:4321
-npm run check     # comprueba tipos y enlaces (astro check)
-npm run build     # genera el sitio en dist/
-npm run preview   # sirve dist/ localmente
+npm run dev          # servidor local en http://localhost:4321
+npm run check        # comprueba tipos y enlaces (astro check)
+npm run format       # formatea el código con Prettier
+npm run format:check # verifica que el código esté formateado (para CI)
+npm run build        # genera el sitio en dist/
+npm run preview      # sirve dist/ localmente
 ```
 
-Cada push a `main` se publica automáticamente en GitHub Pages
-(`.github/workflows/deploy.yml`). Antes de compilar, el despliegue corre `npm run check`; si hay
-errores de tipo, el build no sigue.
+El código (`src/**`) se formatea con Prettier; los documentos escritos a mano (`*.md`) quedan
+fuera. Cada push a `main` se publica automáticamente en GitHub Pages
+(`.github/workflows/deploy.yml`). Antes de compilar, el despliegue corre `npm run check` y
+`npm run format:check`; si algo falla, el build no sigue.
 
 ## Dónde editar
 

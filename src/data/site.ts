@@ -27,11 +27,29 @@ export const site = {
   skills: [
     {
       group: 'Ciberseguridad',
-      items: ['PAM / CyberArk', 'EDR', 'SIEM', 'Gestión de vulnerabilidades', 'Hardening', 'ISO 27001', 'Linux'],
+      items: [
+        'PAM / CyberArk',
+        'EDR',
+        'SIEM',
+        'Gestión de vulnerabilidades',
+        'Hardening',
+        'ISO 27001',
+        'Linux',
+      ],
     },
     {
       group: 'Desarrollo',
-      items: ['Python', 'JavaScript', 'TypeScript', 'Java', 'React', 'Next.js', 'Django', 'Flask', 'Tailwind CSS'],
+      items: [
+        'Python',
+        'JavaScript',
+        'TypeScript',
+        'Java',
+        'React',
+        'Next.js',
+        'Django',
+        'Flask',
+        'Tailwind CSS',
+      ],
     },
     {
       group: 'Datos y automatización',

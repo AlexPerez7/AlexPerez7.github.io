@@ -37,7 +37,11 @@
   color-scheme: dark;
 }
 
-*, *::before, *::after { box-sizing: border-box; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 html {
   -webkit-text-size-adjust: 100%;
@@ -46,20 +50,36 @@ html {
 }
 
 /* Sin el retraso de 300ms al tocar en móvil */
-a, button { touch-action: manipulation; }
+a,
+button {
+  touch-action: manipulation;
+}
 
 body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
-a { color: var(--accent); text-underline-offset: 3px; }
+a {
+  color: var(--accent);
+  text-underline-offset: 3px;
+}
 
-h1, h2, h3 { line-height: 1.2; letter-spacing: -0.02em; }
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
 
 .container {
   width: 100%;
@@ -99,9 +119,13 @@ h1, h2, h3 { line-height: 1.2; letter-spacing: -0.02em; }
   min-height: 44px;
   user-select: none;
   -webkit-user-select: none;
-  transition: transform 160ms var(--ease-out), opacity 160ms ease;
+  transition:
+    transform 160ms var(--ease-out),
+    opacity 160ms ease;
 }
-.btn:active { transform: scale(0.97); }
+.btn:active {
+  transform: scale(0.97);
+}
 .btn.secondary {
   background: transparent;
   color: var(--text);
@@ -109,7 +133,9 @@ h1, h2, h3 { line-height: 1.2; letter-spacing: -0.02em; }
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .btn:hover { opacity: 0.9; }
+  .btn:hover {
+    opacity: 0.9;
+  }
 }
 
 /* Visible solo para lectores de pantalla */
@@ -232,12 +258,16 @@ h1, h2, h3 { line-height: 1.2; letter-spacing: -0.02em; }
 }
 
 @keyframes fade {
-  from { opacity: 0; }
+  from {
+    opacity: 0;
+  }
 }
 
 /* ---------- Impresión ---------- */
 @media print {
-  @page { margin: 1.5cm; }
+  @page {
+    margin: 1.5cm;
+  }
   :root,
   :root:not([data-theme='light']),
   :root[data-theme='dark'] {
@@ -250,15 +280,35 @@ h1, h2, h3 { line-height: 1.2; letter-spacing: -0.02em; }
     --accent-soft: #eef2ff;
     color-scheme: light;
   }
-  body { font-size: 10.5pt; line-height: 1.45; }
+  body {
+    font-size: 10.5pt;
+    line-height: 1.45;
+  }
   .site-header,
   footer,
   .skip-link,
-  .no-print { display: none !important; }
-  main { min-height: 0; padding: 0; }
-  a { color: inherit; text-decoration: none; }
+  .no-print {
+    display: none !important;
+  }
+  main {
+    min-height: 0;
+    padding: 0;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
   /* Sin animaciones: todo visible en el papel */
-  .enter { animation: none !important; }
-  .js .reveal { opacity: 1 !important; translate: none !important; transition: none !important; }
-  h2, h3 { break-after: avoid; }
+  .enter {
+    animation: none !important;
+  }
+  .js .reveal {
+    opacity: 1 !important;
+    translate: none !important;
+    transition: none !important;
+  }
+  h2,
+  h3 {
+    break-after: avoid;
+  }
 }

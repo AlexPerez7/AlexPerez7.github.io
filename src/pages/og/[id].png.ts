@@ -15,7 +15,8 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 const require = createRequire(import.meta.url);
-const font = (pkg: string, file: string) => readFile(require.resolve(`@fontsource/${pkg}/files/${file}`));
+const font = (pkg: string, file: string) =>
+  readFile(require.resolve(`@fontsource/${pkg}/files/${file}`));
 const fontsPromise = Promise.all([
   font('inter', 'inter-latin-400-normal.woff'),
   font('inter', 'inter-latin-800-normal.woff'),
@@ -50,14 +51,29 @@ export const GET: APIRoute = async ({ props }) => {
     },
     h(
       'div',
-      { alignItems: 'center', gap: 16, fontFamily: 'JetBrains Mono', fontSize: 28, fontWeight: 700 },
+      {
+        alignItems: 'center',
+        gap: 16,
+        fontFamily: 'JetBrains Mono',
+        fontSize: 28,
+        fontWeight: 700,
+      },
       h('span', { color }, '~$'),
       h('span', { color: '#d6d3d1' }, 'proyectos/'),
     ),
     h(
       'div',
       { flexDirection: 'column' },
-      h('div', { fontSize: title.length > 26 ? 64 : 80, fontWeight: 800, letterSpacing: -2, lineHeight: 1.05 }, title),
+      h(
+        'div',
+        {
+          fontSize: title.length > 26 ? 64 : 80,
+          fontWeight: 800,
+          letterSpacing: -2,
+          lineHeight: 1.05,
+        },
+        title,
+      ),
       h(
         'div',
         { marginTop: 24, fontSize: 30, lineHeight: 1.4, color: '#a8a29e', maxWidth: 980 },

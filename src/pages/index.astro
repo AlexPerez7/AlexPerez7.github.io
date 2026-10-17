@@ -29,17 +29,25 @@ const filters = await getFilterTags();
       fetchpriority="high"
       style="--i: 0"
     />
-    <p class="eyebrow enter" style="--i: 1">Hola, soy</p>
-    <h1 class="enter" style="--i: 2"><TypedText text={site.name} delay={300} /></h1>
+    <p class="eyebrow enter" style="--i: 1">
+      Hola, soy
+    </p>
+    <h1 class="enter" style="--i: 2">
+      <TypedText text={site.name} delay={300} />
+    </h1>
     <p class="roles enter" style="--i: 3">
-      <span class="prompt" aria-hidden="true">~$</span>
+      <span class="prompt" aria-hidden="true">
+        ~$
+      </span>
       <RotatingText words={site.roles} delay={2200} />
     </p>
     <p class="lead enter" style="--i: 4">
       Basado en {site.location}. {site.tagline}
     </p>
     <div class="actions enter" style="--i: 5">
-      <a class="btn" href="/proyectos/">Ver proyectos</a>
+      <a class="btn" href="/proyectos/">
+        Ver proyectos
+      </a>
       <CopyEmail email={site.email} />
     </div>
   </section>
@@ -50,7 +58,9 @@ const filters = await getFilterTags();
       <a href="/proyectos/">Ver todos →</a>
     </div>
     <div class="grid">
-      {featured.map((project, i) => <ProjectCard project={project} index={i} />)}
+      {featured.map((project, i) => (
+        <ProjectCard project={project} index={i} />
+      ))}
     </div>
   </section>
 
@@ -61,7 +71,11 @@ const filters = await getFilterTags();
         <div class="reveal" style={`--i: ${i}`}>
           <h3>{group}</h3>
           <ul class="skills">
-            {items.map((skill) => <li><Tag name={skill} href={tagHref(filters, skill)} /></li>)}
+            {items.map((skill) => (
+              <li>
+                <Tag name={skill} href={tagHref(filters, skill)} />
+              </li>
+            ))}
           </ul>
         </div>
       ))}
@@ -75,8 +89,15 @@ const filters = await getFilterTags();
       automatice tu trabajo, escríbeme.
     </p>
     <div class="actions">
-      <a class="btn" href={`mailto:${site.email}`}>Escribir un email</a>
-      <a class="btn secondary" href={site.social.find((s) => s.label === 'LinkedIn')?.href} target="_blank" rel="noopener">
+      <a class="btn" href={`mailto:${site.email}`}>
+        Escribir un email
+      </a>
+      <a
+        class="btn secondary"
+        href={site.social.find((s) => s.label === 'LinkedIn')?.href}
+        target="_blank"
+        rel="noopener"
+      >
         LinkedIn
       </a>
     </div>
@@ -96,14 +117,30 @@ const filters = await getFilterTags();
     inset: -4rem 0 0;
     pointer-events: none;
     background:
-      radial-gradient(40% 55% at 18% 30%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%),
-      radial-gradient(35% 45% at 70% 10%, color-mix(in srgb, #ec4899 9%, transparent), transparent 70%);
+      radial-gradient(
+        40% 55% at 18% 30%,
+        color-mix(in srgb, var(--accent) 16%, transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        35% 45% at 70% 10%,
+        color-mix(in srgb, #ec4899 9%, transparent),
+        transparent 70%
+      );
     filter: blur(8px);
   }
   :global([data-theme='dark']) .hero::before {
     background:
-      radial-gradient(40% 55% at 18% 30%, color-mix(in srgb, var(--accent) 24%, transparent), transparent 70%),
-      radial-gradient(35% 45% at 70% 10%, color-mix(in srgb, #ec4899 14%, transparent), transparent 70%);
+      radial-gradient(
+        40% 55% at 18% 30%,
+        color-mix(in srgb, var(--accent) 24%, transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        35% 45% at 70% 10%,
+        color-mix(in srgb, #ec4899 14%, transparent),
+        transparent 70%
+      );
   }
   .avatar {
     width: 96px;
@@ -122,7 +159,9 @@ const filters = await getFilterTags();
       column-gap: 3rem;
       align-items: center;
     }
-    .hero > :global(*) { grid-column: 1; }
+    .hero > :global(*) {
+      grid-column: 1;
+    }
     .hero > :global(.avatar) {
       grid-column: 2;
       grid-row: 1 / span 5;
@@ -135,8 +174,15 @@ const filters = await getFilterTags();
         0 24px 60px -20px color-mix(in srgb, var(--accent) 45%, transparent);
     }
   }
-  .eyebrow { margin: 0; color: var(--accent); font-weight: 600; }
-  h1 { font-size: clamp(2.25rem, 7vw, 3.75rem); margin: 0.25rem 0 0.75rem; }
+  .eyebrow {
+    margin: 0;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  h1 {
+    font-size: clamp(2.25rem, 7vw, 3.75rem);
+    margin: 0.25rem 0 0.75rem;
+  }
   .roles {
     display: flex;
     align-items: baseline;
@@ -147,10 +193,24 @@ const filters = await getFilterTags();
     font-weight: 600;
     color: var(--text);
   }
-  .prompt { color: var(--accent); flex-shrink: 0; }
-  .lead { font-size: 1.15rem; color: var(--muted); max-width: 46ch; margin: 0 0 1.5rem; }
-  .actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-  section { margin-top: 3rem; }
+  .prompt {
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .lead {
+    font-size: 1.15rem;
+    color: var(--muted);
+    max-width: 46ch;
+    margin: 0 0 1.5rem;
+  }
+  .actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  section {
+    margin-top: 3rem;
+  }
   .section-head {
     display: flex;
     justify-content: space-between;
@@ -172,18 +232,32 @@ const filters = await getFilterTags();
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1.5rem;
   }
-  .skill-groups h3 { font-size: 1rem; margin: 0 0 0.5rem; color: var(--muted); }
+  .skill-groups h3 {
+    font-size: 1rem;
+    margin: 0 0 0.5rem;
+    color: var(--muted);
+  }
   .cta {
     margin-top: 4rem;
     padding: clamp(1.5rem, 5vw, 2.25rem);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     background:
-      radial-gradient(60% 120% at 0% 0%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%),
+      radial-gradient(
+        60% 120% at 0% 0%,
+        color-mix(in srgb, var(--accent) 14%, transparent),
+        transparent 70%
+      ),
       var(--surface);
   }
-  .cta h2 { margin: 0 0 0.5rem; }
-  .cta p { margin: 0 0 1.25rem; color: var(--muted); max-width: 52ch; }
+  .cta h2 {
+    margin: 0 0 0.5rem;
+  }
+  .cta p {
+    margin: 0 0 1.25rem;
+    color: var(--muted);
+    max-width: 52ch;
+  }
   .skills {
     display: flex;
     flex-wrap: wrap;

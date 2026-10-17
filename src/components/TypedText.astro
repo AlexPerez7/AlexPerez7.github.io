@@ -15,8 +15,12 @@ const { text, delay = 350 } = Astro.props;
 
 <span class="typed-text">
   <span class="sr-only">{text}</span>
-  <span class="ghost" aria-hidden="true">{text}</span>
-  <span class="typed" aria-hidden="true" data-text={text} data-delay={delay}>{text}</span>
+  <span class="ghost" aria-hidden="true">
+    {text}
+  </span>
+  <span class="typed" aria-hidden="true" data-text={text} data-delay={delay}>
+    {text}
+  </span>
   <script is:inline>
     // Inline y justo después del texto: se vacía antes del primer pintado, sin parpadeo.
     (() => {
