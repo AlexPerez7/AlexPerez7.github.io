@@ -12,7 +12,17 @@ const filters = [...(await getFilterTags())];
 ---
 
 <Base title="Proyectos" description="Todos mis proyectos.">
-  <h1 class="enter">Proyectos</h1>
+  <div class="page-head enter">
+    <h1>Proyectos</h1>
+    <a class="rss" href="/proyectos/rss.xml" type="application/rss+xml">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M5 11a8 8 0 0 1 8 8" />
+        <circle cx="5" cy="19" r="1.6" />
+        <path d="M5 5a14 14 0 0 1 14 14" />
+      </svg>
+      Suscribirse (RSS)
+    </a>
+  </div>
   <p class="intro enter" style="--i: 1">
     Apps web, PWAs, herramientas internas e IA: una selección de lo que he construido.
   </p>
@@ -100,9 +110,40 @@ const filters = [...(await getFilterTags())];
 </script>
 
 <style>
+  .page-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    margin: 2rem 0 0.5rem;
+  }
   h1 {
     font-size: clamp(2rem, 8vw, 2.5rem);
-    margin: 2rem 0 0.5rem;
+    margin: 0;
+  }
+  .rss {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 44px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    text-decoration: none;
+  }
+  .rss svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .rss:hover {
+      color: var(--accent);
+    }
   }
   .intro {
     color: var(--muted);

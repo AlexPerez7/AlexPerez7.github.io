@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import ProjectCover from '../../components/ProjectCover.astro';
 import Tag from '../../components/Tag.astro';
+import ShareButton from '../../components/ShareButton.astro';
 import { getFilterTags, tagHref } from '../../lib/tags';
 import { site } from '../../data/site';
 
@@ -19,10 +20,15 @@ export async function getStaticPaths() {
 
 const { project, prev, next } = Astro.props;
 const { title, description, date, tags, repo, demo } = project.data;
-const { Content } = await render(project);
+const { Content, headings } = await render(project);
 const longDate = date.toLocaleDateString('es-CL', { year: 'numeric', month: 'long' });
 const formattedDate = longDate.charAt(0).toUpperCase() + longDate.slice(1);
 const filters = await getFilterTags();
+
+// Índice de secciones a partir de los encabezados del Markdown (## y ###)
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
 
 // Datos estructurados del proyecto: Google entiende qué es, quién lo hizo y dónde está el código
 const projectSchema = {
@@ -31,7 +37,7 @@ const projectSchema = {
   name: title,
   description,
   datePublished: date.toISOString().slice(0, 10),
-  url: new URL(Astro.url.pathname, Astro.site).href,
+  url: canonical,
   image: new URL(`/og/${project.id}.png`, Astro.site).href,
   inLanguage: 'es',
   keywords: tags.join(', '),
@@ -39,10 +45,34 @@ const projectSchema = {
   isPartOf: { '@type': 'WebSite', name: site.name, url: Astro.site?.href },
   ...(repo ? { codeRepository: repo } : {}),
 };
+
+// Migas de pan: Inicio › Proyectos › <proyecto>
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: new URL('/', Astro.site).href },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Proyectos',
+      item: new URL('/proyectos/', Astro.site).href,
+    },
+    { '@type': 'ListItem', position: 3, name: title, item: canonical },
+  ],
+};
 ---
 
-<Base title={title} description={description} type="article" image={`/og/${project.id}.png`}>
+<Base
+  title={title}
+  description={description}
+  type="article"
+  image={`/og/${project.id}.png`}
+  imageAlt={`${title} · ${site.name}`}
+  keywords={tags.join(', ')}
+>
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(projectSchema)} />
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
   <article>
     <header class="head">
       <a href="/proyectos/" class="back">
@@ -71,19 +101,33 @@ const projectSchema = {
           ))}
         </ul>
       </div>
-      {(repo || demo) && (
-        <div class="links">
-          {demo && (
-            <a class="btn" href={demo} target="_blank" rel="noopener">
-              Ver demo
-            </a>
-          )}
-          {repo && (
-            <a class="btn secondary" href={repo} target="_blank" rel="noopener">
-              Código
-            </a>
-          )}
-        </div>
+      <div class="links">
+        {demo && (
+          <a class="btn" href={demo} target="_blank" rel="noopener">
+            Ver demo
+          </a>
+        )}
+        {repo && (
+          <a class="btn secondary" href={repo} target="_blank" rel="noopener">
+            Código
+          </a>
+        )}
+        <ShareButton url={canonical} title={title} />
+      </div>
+
+      {toc.length > 0 && (
+        <nav class="toc" aria-labelledby="toc-title">
+          <p class="label toc-title" id="toc-title">
+            Contenido
+          </p>
+          <ul>
+            {toc.map((h) => (
+              <li class={`toc-${h.depth}`}>
+                <a href={`#${h.slug}`}>{h.text}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
       )}
     </aside>
 
@@ -160,6 +204,10 @@ const projectSchema = {
     flex-wrap: wrap;
     margin: 1.5rem 0 0;
   }
+  /* Índice de secciones: solo aparece en el panel de escritorio */
+  .toc {
+    display: none;
+  }
   .content {
     border-top: 1px solid var(--border);
     margin-top: 2rem;
@@ -215,6 +263,34 @@ const projectSchema = {
     }
     .links .btn {
       width: 100%;
+    }
+    .toc {
+      display: block;
+      border-top: 1px solid var(--border);
+      padding-top: 1.25rem;
+    }
+    .toc ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .toc a {
+      display: block;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.35;
+      text-decoration: none;
+    }
+    .toc .toc-3 {
+      padding-left: 0.9rem;
+    }
+  }
+  @media (min-width: 900px) and (hover: hover) and (pointer: fine) {
+    .toc a:hover {
+      color: var(--accent);
     }
   }
 
