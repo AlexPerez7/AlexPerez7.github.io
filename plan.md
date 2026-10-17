@@ -53,11 +53,6 @@ actualiza al terminarla, igual que `CLAUDE.md`.
   y a ese tamaño no se lee. `[necesita a Alex]` Se hará junto con las capturas del resto de
   proyectos.
 
-### Revisión de código y calidad (2026-10-17)
-
-- Prettier con `prettier-plugin-astro`: sin formateador no hay red de seguridad para el estilo,
-  que hoy se mantiene a mano. Solo afecta al desarrollo, no al sitio. `[autónoma]`
-
 ## Hecho
 
 | Fecha      | Mejora                                                                                       | Commit    |
@@ -77,6 +72,7 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 | 2026-10-17 | Verificación de tipos (`astro check`) y workflow que compila antes de desplegar; se limpiaron los diagnósticos previos (tipado del sitemap, `@types/node`, `z.url()`) | `aeba8a5` |
 | 2026-10-17 | Avatar propio en los datos estructurados, `twitter:image`, fecha del proyecto con `es-CL` y aviso `<noscript>` para quien navega sin JavaScript | `0d21960` |
 | 2026-10-17 | Precarga del menú, aptitudes en la paleta de búsqueda y roles del hero fijos con movimiento reducido | `42e416d` |
+| 2026-10-17 | Formato del código con Prettier (`prettier-plugin-astro`, solo `src/**`) y `format:check` en el workflow de despliegue | `1dda2bc` |
 
 ## Descartadas
 
