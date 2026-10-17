@@ -55,11 +55,6 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 
 ### Revisión de código y calidad (2026-10-17)
 
-- Datos estructurados: el `image` del `personSchema` apunta al avatar remoto de GitHub en vez de
-  a una imagen propia; conviene usar una URL local para no depender de un servicio externo.
-  `[autónoma]`
-- Añadir `twitter:image` (y `twitter:image:alt` por proyecto) para controlar cómo se ve el enlace
-  al compartir en X y WhatsApp. `[autónoma]`
 - Prettier con `prettier-plugin-astro`: sin formateador no hay red de seguridad para el estilo,
   que hoy se mantiene a mano. Solo afecta al desarrollo, no al sitio. `[autónoma]`
 - Precarga (prefetch) de las páginas del menú para que el cambio de sección con las transiciones
@@ -68,10 +63,6 @@ actualiza al terminarla, igual que `CLAUDE.md`.
   `/proyectos/?tag=…`, para encontrar una tecnología desde `Ctrl+K`. `[autónoma]`
 - `RotatingText` con "reducir movimiento": hoy mantiene un fundido en bucle infinito; se puede
   dejar la primera frase fija, como ya hacen `TypedText` y el resto de efectos. `[autónoma]`
-- Fecha del proyecto con `es-CL` en vez de `es-ES`, para ser coherente con el español neutral y
-  el `og:locale` del sitio. `[autónoma]`
-- `<noscript>` que aclare que la búsqueda necesita JavaScript, para quien lo desactive.
-  `[autónoma]`
 
 ## Hecho
 
@@ -90,6 +81,7 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 | 2026-10-11 | Rediseño de escritorio y UX: proyecto y "Sobre mí" en dos columnas con panel fijo, foto grande en el hero, etiquetas que enlazan a los filtros, filtros deslizables en móvil, indicador "Demo", tecleo del nombre solo en la primera visita, botón "Buscar Ctrl K", búsqueda sin animación, footer alineado | `91d02d2` |
 | 2026-10-11 | Portada con captura real de PAM Web Console; README propio; búsqueda con `Ctrl+K` / `/`; Lighthouse 100 en las 4 categorías (orden de encabezados y nombre accesible del logo) | `e60dafb` |
 | 2026-10-17 | Verificación de tipos (`astro check`) y workflow que compila antes de desplegar; se limpiaron los diagnósticos previos (tipado del sitemap, `@types/node`, `z.url()`) | `aeba8a5` |
+| 2026-10-17 | Avatar propio en los datos estructurados, `twitter:image`, fecha del proyecto con `es-CL` y aviso `<noscript>` para quien navega sin JavaScript | `0d21960` |
 
 ## Descartadas
 
