@@ -72,8 +72,10 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 | 2026-10-17 | Precarga del menú, aptitudes en la paleta de búsqueda y roles del hero fijos con movimiento reducido | `42e416d` |
 | 2026-10-17 | Formato del código con Prettier (`prettier-plugin-astro`, solo `src/**`) y `format:check` en el workflow de despliegue | `1dda2bc` |
 | 2026-10-17 | Datos estructurados `SoftwareSourceCode` por proyecto, búsqueda accesible en móvil y repaso de Lighthouse (100 en las 4 categorías en inicio, listado, proyecto y "Sobre mí") | `f7cbf79` |
-| 2026-10-17 | Segunda ronda: `BreadcrumbList` y `keywords` por proyecto, `og:image:alt` específico, índice de secciones en el panel de escritorio, botón Compartir (hoja nativa o copiar enlace), feed RSS de proyectos y mantenimiento con Dependabot y `.editorconfig` | `453dc61` |
+| 2026-10-17 | Segunda ronda: `BreadcrumbList` y `keywords` por proyecto, `og:image:alt` específico, índice de secciones en el panel de escritorio, botón Compartir (hoja nativa o copiar enlace) y mantenimiento con Dependabot y `.editorconfig` | `453dc61` |
 
 ## Descartadas
 
-_Ninguna por ahora._
+- Feed RSS de proyectos (2026-10-17): se añadió y se retiró el mismo día. Aporta poco en un
+  portafolio y añadía un enlace que no encaja con el resto. Se puede recuperar cuando haya
+  notas técnicas o un blog, que es donde el RSS sí tiene sentido.
