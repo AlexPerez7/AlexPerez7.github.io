@@ -101,7 +101,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
         </a>
         <nav aria-label="Principal">
           {nav.map((item) => (
-            <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+            <a href={item.href} data-astro-prefetch aria-current={isActive(item.href) ? 'page' : undefined}>
               {item.label}
               {isActive(item.href) && <span class="indicator" aria-hidden="true" />}
             </a>

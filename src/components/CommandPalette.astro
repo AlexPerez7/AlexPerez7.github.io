@@ -3,6 +3,7 @@
 // El índice se arma al compilar; el filtrado ocurre en el navegador.
 import { getCollection } from 'astro:content';
 import { site } from '../data/site';
+import { getFilterTags, tagHref } from '../lib/tags';
 
 interface Item {
   label: string;
@@ -17,6 +18,7 @@ interface Item {
 const projects = (await getCollection('proyectos')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
+const filters = await getFilterTags();
 
 const groups: { title: string; items: Item[] }[] = [
   {
@@ -36,6 +38,19 @@ const groups: { title: string; items: Item[] }[] = [
       href: `/proyectos/${p.id}/`,
       keywords: `${p.data.tags.join(' ')} ${p.data.description}`,
     })),
+  },
+  {
+    title: 'Aptitudes',
+    // Cada aptitud enlaza a los proyectos que la usan; si no hay filtro, al listado completo
+    items: site.skills.flatMap(({ group, items }) =>
+      items.map((skill) => ({
+        label: skill,
+        hint: group,
+        icon: '#',
+        href: tagHref(filters, skill) ?? '/proyectos/',
+        keywords: `${group} aptitud habilidad tecnología`,
+      })),
+    ),
   },
   {
     title: 'Enlaces',

@@ -30,22 +30,8 @@ const longest = words.reduce((a, b) => (b.length > a.length ? b : a), '');
         while (document.hidden) await wait(500);
       };
 
-      // Movimiento reducido: sin tecleo ni desplazamientos, las frases cambian con un fundido suave
-      if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        el.style.transition = 'opacity 300ms ease';
-        (async () => {
-          await wait(delay);
-          for (let w = 1; ; w = (w + 1) % words.length) {
-            await wait(2600);
-            await visible();
-            el.style.opacity = '0';
-            await wait(300);
-            el.textContent = words[w];
-            el.style.opacity = '1';
-          }
-        })();
-        return;
-      }
+      // Movimiento reducido: sin rotación, se deja la primera frase fija
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
       const node = document.createTextNode('');
       const caret = document.createElement('span');
