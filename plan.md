@@ -55,8 +55,6 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 
 ### Revisión de código y calidad (2026-10-17)
 
-- Verificación de tipos y CI de comprobación: no hay script `astro check` ni un workflow que
-  compile antes de desplegar, así que un error de tipo llega a `main` sin freno. `[autónoma]`
 - Datos estructurados: el `image` del `personSchema` apunta al avatar remoto de GitHub en vez de
   a una imagen propia; conviene usar una URL local para no depender de un servicio externo.
   `[autónoma]`
@@ -91,6 +89,7 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 | 2026-10-11 | Proyecto PAM Web Console como primer destacado; AutoPedia deja de ser destacado             | `9481f30` |
 | 2026-10-11 | Rediseño de escritorio y UX: proyecto y "Sobre mí" en dos columnas con panel fijo, foto grande en el hero, etiquetas que enlazan a los filtros, filtros deslizables en móvil, indicador "Demo", tecleo del nombre solo en la primera visita, botón "Buscar Ctrl K", búsqueda sin animación, footer alineado | `91d02d2` |
 | 2026-10-11 | Portada con captura real de PAM Web Console; README propio; búsqueda con `Ctrl+K` / `/`; Lighthouse 100 en las 4 categorías (orden de encabezados y nombre accesible del logo) | `e60dafb` |
+| 2026-10-17 | Verificación de tipos (`astro check`) y workflow que compila antes de desplegar; se limpiaron los diagnósticos previos (tipado del sitemap, `@types/node`, `z.url()`) | `aeba8a5` |
 
 ## Descartadas
 
