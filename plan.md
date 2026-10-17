@@ -44,19 +44,6 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 - Estadísticas de GitHub (repos, lenguajes) generadas en el build. `[autónoma]`
 - Analítica respetuosa de la privacidad (Plausible, Umami o GoatCounter). `[necesita a Alex]`
 
-### Revisión de código y UX (2026-10-17, segunda ronda)
-
-- Pulido SEO: datos estructurados `BreadcrumbList` (Inicio › Proyectos › Proyecto), `keywords`
-  y un `og:image:alt` específico por proyecto (hoy es genérico con el nombre y el cargo).
-  `[autónoma]`
-- Índice de secciones (TOC) en las páginas de proyecto, que ya tienen varios `##`. `[autónoma]`
-- Botón para copiar el enlace del proyecto (o compartir con `navigator.share` en móvil).
-  `[autónoma]`
-- Feed RSS de proyectos (`/proyectos/rss.xml`), reutilizable cuando existan las notas técnicas.
-  `[autónoma]`
-- Mantenimiento: Dependabot para npm y GitHub Actions, y un `.editorconfig` para el estilo entre
-  editores. `[autónoma]`
-
 ### Revisión de diseño y UX (2026-10-11)
 
 - Capturas enmarcadas: mostrar la captura como "ventana" sobre el degradado del color del
@@ -85,6 +72,7 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 | 2026-10-17 | Precarga del menú, aptitudes en la paleta de búsqueda y roles del hero fijos con movimiento reducido | `42e416d` |
 | 2026-10-17 | Formato del código con Prettier (`prettier-plugin-astro`, solo `src/**`) y `format:check` en el workflow de despliegue | `1dda2bc` |
 | 2026-10-17 | Datos estructurados `SoftwareSourceCode` por proyecto, búsqueda accesible en móvil y repaso de Lighthouse (100 en las 4 categorías en inicio, listado, proyecto y "Sobre mí") | `f7cbf79` |
+| 2026-10-17 | Segunda ronda: `BreadcrumbList` y `keywords` por proyecto, `og:image:alt` específico, índice de secciones en el panel de escritorio, botón Compartir (hoja nativa o copiar enlace), feed RSS de proyectos y mantenimiento con Dependabot y `.editorconfig` | `453dc61` |
 
 ## Descartadas
 
