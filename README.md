@@ -25,12 +25,14 @@ Requiere Node.js 22.12 o superior.
 ```sh
 npm install
 npm run dev       # servidor local en http://localhost:4321
+npm run check     # comprueba tipos y enlaces (astro check)
 npm run build     # genera el sitio en dist/
 npm run preview   # sirve dist/ localmente
 ```
 
 Cada push a `main` se publica automáticamente en GitHub Pages
-(`.github/workflows/deploy.yml`).
+(`.github/workflows/deploy.yml`). Antes de compilar, el despliegue corre `npm run check`; si hay
+errores de tipo, el build no sigue.
 
 ## Dónde editar
 

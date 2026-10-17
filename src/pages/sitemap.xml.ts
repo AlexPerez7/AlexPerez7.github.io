@@ -4,7 +4,7 @@ import { getCollection } from 'astro:content';
 // Sitemap generado en el build con todas las páginas públicas
 export const GET: APIRoute = async ({ site }) => {
   const projects = await getCollection('proyectos');
-  const pages = [
+  const pages: { path: string; lastmod?: Date }[] = [
     { path: '/' },
     { path: '/proyectos/' },
     { path: '/sobre-mi/' },

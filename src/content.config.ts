@@ -9,8 +9,8 @@ const proyectos = defineCollection({
     description: z.string(),
     date: z.coerce.date(),
     tags: z.array(z.string()).default([]),
-    repo: z.string().url().optional(),
-    demo: z.string().url().optional(),
+    repo: z.url().optional(),
+    demo: z.url().optional(),
     featured: z.boolean().default(false),
     // Portada: color e ícono para la portada generada, o una imagen real opcional
     color: z.string().default('#6366f1'),
