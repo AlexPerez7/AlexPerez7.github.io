@@ -57,12 +57,6 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 
 - Prettier con `prettier-plugin-astro`: sin formateador no hay red de seguridad para el estilo,
   que hoy se mantiene a mano. Solo afecta al desarrollo, no al sitio. `[autónoma]`
-- Precarga (prefetch) de las páginas del menú para que el cambio de sección con las transiciones
-  nativas sea instantáneo. `[autónoma]`
-- Incluir las aptitudes de `site.skills` en la paleta de búsqueda, enlazando a
-  `/proyectos/?tag=…`, para encontrar una tecnología desde `Ctrl+K`. `[autónoma]`
-- `RotatingText` con "reducir movimiento": hoy mantiene un fundido en bucle infinito; se puede
-  dejar la primera frase fija, como ya hacen `TypedText` y el resto de efectos. `[autónoma]`
 
 ## Hecho
 
@@ -82,6 +76,7 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 | 2026-10-11 | Portada con captura real de PAM Web Console; README propio; búsqueda con `Ctrl+K` / `/`; Lighthouse 100 en las 4 categorías (orden de encabezados y nombre accesible del logo) | `e60dafb` |
 | 2026-10-17 | Verificación de tipos (`astro check`) y workflow que compila antes de desplegar; se limpiaron los diagnósticos previos (tipado del sitemap, `@types/node`, `z.url()`) | `aeba8a5` |
 | 2026-10-17 | Avatar propio en los datos estructurados, `twitter:image`, fecha del proyecto con `es-CL` y aviso `<noscript>` para quien navega sin JavaScript | `0d21960` |
+| 2026-10-17 | Precarga del menú, aptitudes en la paleta de búsqueda y roles del hero fijos con movimiento reducido | `42e416d` |
 
 ## Descartadas
 
