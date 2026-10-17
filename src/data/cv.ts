@@ -38,13 +38,19 @@ export const experience = [
   },
 ];
 
-export const education = [
+export const education: {
+  title: string;
+  school: string;
+  period: string;
+  note?: string;
+  /** Enlace opcional de la nota (p. ej. al proyecto de título, si tiene página) */
+  noteHref?: string;
+}[] = [
   {
     title: 'Ingeniería en Informática',
     school: 'Duoc UC',
     period: '2020 – 2024',
     note: 'Proyecto de título: Pandas-AI',
-    noteHref: '/proyectos/pandas-ai/',
   },
   {
     title: 'Técnico de Nivel Medio en Electrónica',
