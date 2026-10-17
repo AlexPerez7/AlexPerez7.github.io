@@ -19,15 +19,21 @@ const { title, color, icon, cover } = project.data;
   aria-hidden="true"
 >
   {cover ? (
-    <Image
-      src={cover}
-      alt=""
-      widths={variant === 'banner' ? [720, 1440] : [400, 800]}
-      sizes={
-        variant === 'banner' ? '(min-width: 760px) 720px, 100vw' : '(min-width: 760px) 320px, 100vw'
-      }
-      loading={variant === 'banner' ? 'eager' : 'lazy'}
-    />
+    <span class="shot">
+      <Image
+        class="shot-img"
+        src={cover}
+        alt=""
+        widths={variant === 'banner' ? [720, 1440] : [400, 800]}
+        sizes={
+          variant === 'banner'
+            ? '(min-width: 760px) 720px, 100vw'
+            : '(min-width: 760px) 320px, 100vw'
+        }
+        loading={variant === 'banner' ? 'eager' : 'lazy'}
+        decoding="async"
+      />
+    </span>
   ) : (
     <span class="tile" data-title={title}>
       {icon}
@@ -69,13 +75,31 @@ const { title, color, icon, cover } = project.data;
     -webkit-mask-image: linear-gradient(to bottom, black, transparent 85%);
     opacity: 0.6;
   }
-  .cover img {
+
+  /* Captura real: se muestra como una "ventana" flotando sobre el degradado */
+  .shot {
     position: absolute;
-    inset: 0;
+    inset: clamp(0.5rem, 4%, 0.9rem);
+    overflow: hidden;
+    border-radius: 10px;
+    background: var(--surface);
+    border: 1px solid color-mix(in srgb, var(--c) 25%, var(--border));
+    box-shadow: 0 16px 34px -18px color-mix(in srgb, var(--c) 60%, rgb(0 0 0 / 0.5));
+    transition: transform 250ms var(--ease-out);
+  }
+  .shot-img {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: top;
+  }
+  /* En modo oscuro se atenúa para integrarse con la superficie y no deslumbrar */
+  :global([data-theme='dark']) .shot {
+    border-color: color-mix(in srgb, var(--c) 30%, var(--border));
+  }
+  :global([data-theme='dark']) .shot-img {
+    filter: brightness(0.88) saturate(0.95);
   }
 
   .tile {
@@ -99,6 +123,10 @@ const { title, color, icon, cover } = project.data;
     aspect-ratio: 16 / 6;
     border-radius: var(--radius);
     border: 1px solid var(--border);
+  }
+  .cover--banner .shot {
+    inset: clamp(0.9rem, 3%, 1.5rem);
+    border-radius: 12px;
   }
   .cover--banner .tile {
     width: 88px;

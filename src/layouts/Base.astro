@@ -158,6 +158,12 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
       </div>
     </footer>
 
+    <button type="button" class="to-top" aria-label="Volver arriba">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 19V5m0 0l-6 6m6-6l6 6" />
+      </svg>
+    </button>
+
     <script>
       // Muestra cada .reveal una sola vez cuando entra en pantalla.
       const observer = new IntersectionObserver(
@@ -171,6 +177,18 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
         { rootMargin: '0px 0px -10% 0px' },
       );
       document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+      // Botón "volver arriba": aparece tras bajar una pantalla.
+      const toTop = document.querySelector('.to-top');
+      if (toTop) {
+        const sync = () => toTop.classList.toggle('show', window.scrollY > window.innerHeight);
+        addEventListener('scroll', sync, { passive: true });
+        sync();
+        toTop.addEventListener('click', () => {
+          const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+          window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+        });
+      }
     </script>
   </body>
 </html>
@@ -353,5 +371,62 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     align-items: center;
     min-height: 44px;
     padding: 0 0.25rem;
+  }
+
+  /* Botón "volver arriba": flota abajo a la derecha tras bajar una pantalla */
+  .to-top {
+    position: fixed;
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    z-index: 20;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 8px 24px -10px rgb(0 0 0 / 0.35);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    translate: 0 8px;
+    transition:
+      opacity 200ms var(--ease-out),
+      translate 200ms var(--ease-out),
+      visibility 200ms,
+      border-color 150ms ease,
+      color 150ms ease;
+  }
+  .to-top.show {
+    opacity: 1;
+    visibility: visible;
+    translate: none;
+  }
+  .to-top:active {
+    transform: scale(0.94);
+  }
+  .to-top svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .to-top:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .to-top {
+      transition: opacity 150ms ease;
+      translate: none;
+    }
   }
 </style>

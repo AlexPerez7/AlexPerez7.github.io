@@ -91,6 +91,9 @@ const { title, description, tags, demo } = project.data;
     .card:hover :global(.tile) {
       transform: translateY(-3px) rotate(-6deg) scale(1.06);
     }
+    .card:hover :global(.shot) {
+      transform: translateY(-2px) scale(1.02);
+    }
   }
   /* Pastilla sobre la portada: el proyecto se puede probar */
   .demo-badge {
@@ -168,6 +171,9 @@ const { title, description, tags, demo } = project.data;
       transform: none;
     }
     .card:hover :global(.tile) {
+      transform: none;
+    }
+    .card:hover :global(.shot) {
       transform: none;
     }
     .arrow {

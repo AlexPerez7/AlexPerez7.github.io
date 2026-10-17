@@ -156,6 +156,35 @@ const breadcrumbSchema = {
   </article>
 </Base>
 
+<script>
+  // Índice de secciones: marca la que se está leyendo al hacer scroll.
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.toc a')];
+  if (links.length) {
+    const targets = new Map<Element, HTMLAnchorElement>();
+    for (const link of links) {
+      const heading = document.getElementById(decodeURIComponent(link.hash.slice(1)));
+      if (heading) targets.set(heading, link);
+    }
+    let current: HTMLAnchorElement | null = null;
+    const setCurrent = (link: HTMLAnchorElement | null) => {
+      if (link === current) return;
+      current?.removeAttribute('aria-current');
+      link?.setAttribute('aria-current', 'true');
+      current = link;
+    };
+    // Banda estrecha bajo el header: activa el encabezado que la cruza.
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setCurrent(targets.get(entry.target) ?? null);
+        }
+      },
+      { rootMargin: '-5.5rem 0px -72% 0px' },
+    );
+    for (const heading of targets.keys()) observer.observe(heading);
+  }
+</script>
+
 <style>
   article {
     max-width: 68ch;
@@ -286,6 +315,10 @@ const breadcrumbSchema = {
     }
     .toc .toc-3 {
       padding-left: 0.9rem;
+    }
+    .toc a[aria-current='true'] {
+      color: var(--accent);
+      font-weight: 600;
     }
   }
   @media (min-width: 900px) and (hover: hover) and (pointer: fine) {

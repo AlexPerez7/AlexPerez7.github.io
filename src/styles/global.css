@@ -148,6 +148,13 @@ h3 {
   white-space: nowrap;
 }
 
+/* Anillo de foco consistente en todo el sitio. Con :where() no gana en
+   especificidad, así cada componente puede afinar el suyo si lo necesita. */
+:where(a, button, [tabindex]:not([tabindex='-1'])):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 /* ---------- Animaciones ---------- */
 
 :root {
@@ -287,6 +294,7 @@ h3 {
   .site-header,
   footer,
   .skip-link,
+  .to-top,
   .no-print {
     display: none !important;
   }
