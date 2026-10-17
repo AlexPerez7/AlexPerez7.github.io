@@ -19,7 +19,7 @@ export async function getStaticPaths() {
 const { project, prev, next } = Astro.props;
 const { title, description, date, tags, repo, demo } = project.data;
 const { Content } = await render(project);
-const longDate = date.toLocaleDateString('es-ES', { year: 'numeric', month: 'long' });
+const longDate = date.toLocaleDateString('es-CL', { year: 'numeric', month: 'long' });
 const formattedDate = longDate.charAt(0).toUpperCase() + longDate.slice(1);
 const filters = await getFilterTags();
 ---

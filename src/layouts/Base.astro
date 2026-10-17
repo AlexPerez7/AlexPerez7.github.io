@@ -27,7 +27,7 @@ const personSchema = {
   name: site.name,
   jobTitle: site.role,
   url: Astro.site?.href,
-  image: site.avatar,
+  image: new URL(site.avatar, Astro.site).href,
   email: `mailto:${site.email}`,
   worksFor: { '@type': 'Organization', name: site.company },
   address: { '@type': 'PostalAddress', addressLocality: 'Santiago', addressCountry: 'CL' },
@@ -70,6 +70,8 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={`${site.name}, ${site.role}`} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={`${site.name}, ${site.role}`} />
 
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
     <script is:inline>
@@ -109,6 +111,13 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
         <ThemeToggle />
       </div>
     </header>
+
+    <noscript>
+      <p class="noscript-note container">
+        La búsqueda (Ctrl K) y el cambio de tema necesitan JavaScript; el resto del sitio
+        funciona sin él.
+      </p>
+    </noscript>
 
     <main id="contenido" class="container" tabindex="-1">
       <slot />
@@ -156,6 +165,14 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
   }
   .skip-link:focus { translate: none; }
   main:focus { outline: none; }
+
+  /* Aviso para quien navega sin JavaScript (solo se ve entonces) */
+  .noscript-note {
+    margin: 0;
+    padding-top: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
 
   .site-header {
     view-transition-name: site-header;

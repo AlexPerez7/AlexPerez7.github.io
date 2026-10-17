@@ -16,7 +16,9 @@ export const site = {
   email: 'alexmatiasp01@gmail.com',
   location: 'Santiago, Chile',
   company: 'Assertiva S.A.',
-  avatar: 'https://avatars.githubusercontent.com/u/64103251?v=4',
+  // Foto para los datos estructurados: se sirve desde el sitio (public/avatar.jpg),
+  // así no dependemos de un servicio externo. Es la misma imagen de src/assets/avatar.jpg.
+  avatar: '/avatar.jpg',
   social: [
     { label: 'GitHub', href: 'https://github.com/AlexPerez7' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/alexperezargomedo/' },
