@@ -72,6 +72,7 @@ actualiza al terminarla, igual que `CLAUDE.md`.
 | 2026-10-17 | Paginador de proyectos centrado; cuando hay un solo enlace ocupa todo el ancho | `cd68364` |
 | 2026-10-17 | Retirados los proyectos AutoPedia, Registro de horas en Odoo, AlexBeats y Pandas-AI (quedan 5) | `270b12f` |
 | 2026-10-17 | Agregado NexScreen (segundo monitor para Windows desde una tablet Android) como destacado; Gastify deja de serlo | `2830d76` |
+| 2026-10-17 | README reescrito: título y descripción, badge de despliegue, stack, estructura de `src/`, tabla de edición y despliegue; se corrigió la nota de accesibilidad (excepción del hero) | `3eaa431` |
 
 ## Descartadas
 
